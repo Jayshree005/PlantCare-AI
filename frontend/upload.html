@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Leaf - PlantCare AI</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <div class="logo
+            🌿 PlantCare AI
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="index.html#features">Features</a>
+            <a href="index.html#about">About</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Upload Section -->
+    <main class="upload-page">
+
+        <section class="upload-section">
+
+            <div class="section-heading">
+
+                <span class="tagline">
+                    AI PLANT HEALTH ANALYSIS
+                </span>
+
+                <h1>
+                    Upload Your Plant Leaf
+                </h1>
+
+                <p>
+                    Upload a clear image of the affected plant leaf
+                    to check for possible diseases.
+                </p>
+
+            </div>
+
+
+            <!-- Upload Card -->
+            <div class="upload-card">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+                <h2>
+                    Upload Leaf Image
+                </h2>
+
+                <p>
+                    Choose a clear photo of the plant leaf
+                    from your device.
+                </p>
+
+
+                <!-- File Input -->
+                <label for="leaf-image" class="upload-button">
+                    Choose Image
+                </label>
+
+                <input
+                    type="file"
+                    id="leaf-image"
+                    accept="image/*"
+                    hidden
+                >
+
+
+                <!-- Image Preview -->
+                <div class="image-preview" id="image-preview">
+
+                    <span>
+                        Image preview will appear here
+                    </span>
+
+                </div>
+
+
+                <!-- Analyze Button -->
+                <button
+                    type="button"
+                    class="primary-button analyze-button"
+                    id="analyze-button"
+                >
+                    Analyze Plant →
+                </button>
+
+
+                <small class="upload-note">
+                    Supported formats: JPG, JPEG, PNG
+                </small>
+
+            </div>
+
+
+            <!-- Back Button -->
+            <a href="index.html" class="back-link">
+                ← Back to Home
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="../js/app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+# Python environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Datasets
+AloeVera_Plant/
+PlantVillage/
+plant_validation_data/
+validator_dataset/
+archive (4)/
+
+# Trained models
+*.keras
+*.h5
+*.hdf5
+
+# Django database and images
+backend/db.sqlite3
+backend/prediction_images/
+
+# Secrets
+.env
+.env.*
+
+# Cache and editor files
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.DS_Store
+Thumbs.db
