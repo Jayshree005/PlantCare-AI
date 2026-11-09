@@ -1,119 +1,287 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Plant Analysis Result - PlantCare AI</title>
+
     <link rel="stylesheet" href="../css/style.css">
 
-    <!-- Weather Dashboard Styling -->
     <style>
-        .weather-card {
-            margin: 35px 0;
-            padding: 28px;
-            border-radius: 18px;
-            background: rgba(10, 35, 25, 0.88);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: white;
-        }
 
-        .weather-header {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
+/* WEATHER DASHBOARD */
 
-        .weather-icon {
-            font-size: 45px;
-        }
+.weather-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    box-sizing: border-box;
+    grid-column: 1 / -1;
+    margin: 35px 0;
+    padding: 28px;
+    border-radius: 18px;
+    background: rgba(10, 35, 25, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+}
 
-        .weather-search {
-            display: flex;
-            gap: 12px;
-            margin: 25px 0 12px;
-        }
+.result-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
 
-        .weather-search input {
-            flex: 1;
-            min-width: 0;
-            padding: 13px;
-            border-radius: 8px;
-            border: 1px solid #aaa;
-            font-size: 15px;
-        }
+.weather-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+}
 
-        .weather-search button {
-            padding: 13px 20px;
-            border: none;
-            border-radius: 8px;
-            background: #8bc98d;
-            color: #102519;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.weather-icon {
+    font-size: 45px;
+    flex-shrink: 0;
+}
 
-        .weather-search button:hover {
-            background: #a5dba7;
-        }
+.weather-search {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin: 25px 0 12px;
+}
 
-        .weather-search button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+.weather-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    font-size: 15px;
+    box-sizing: border-box;
+}
 
-        #weather-message {
-            margin: 12px 0;
-        }
+.weather-search button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #8bc98d;
+    color: #102519;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .weather-details {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
+.weather-search button:hover {
+    background: #a5dba7;
+}
 
-        .weather-item {
-            padding: 18px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.09);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+.weather-search button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
-        .weather-item strong {
-            font-size: 21px;
-        }
+#weather-message {
+    margin: 12px 0;
+}
 
-        #weather-dashboard h3 {
-            margin-top: 22px;
-        }
+#weather-data {
+    display: none;
+    width: 100%;
+    min-width: 0;
+}
 
-        #weather-recommendations li {
-            margin-bottom: 10px;
-        }
+#weather-location {
+    margin: 20px 0;
+}
 
-        @media (max-width: 600px) {
-            .weather-details {
-                grid-template-columns: repeat(2, 1fr);
-            }
+#weather-dashboard h3 {
+    margin-top: 22px;
+}
 
-            .weather-search {
-                flex-direction: column;
-            }
+/* WEATHER DETAILS */
 
-            .weather-search button {
-                width: 100%;
-            }
-        }
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.weather-item {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.09);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-wrap: anywhere;
+}
+
+.weather-item strong {
+    font-size: 21px;
+}
+
+#weather-recommendations li {
+    margin-bottom: 10px;
+}
+
+/* WEATHER DISEASE RISK */
+
+.weather-risk-section {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin-top: 28px;
+    padding: 24px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.weather-risk-section h3 {
+    margin-top: 0 !important;
+}
+
+#weather-risk-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    width: 100%;
+    margin-top: 20px;
+    align-items: stretch;
+}
+
+.risk-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 22px;
+    margin: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    overflow-wrap: anywhere;
+}
+
+.risk-card h4 {
+    margin: 0 0 14px;
+    font-size: 17px;
+}
+
+.risk-card p {
+    line-height: 1.6;
+    margin: 12px 0;
+}
+
+.risk-card ul {
+    padding-left: 20px;
+    margin: 10px 0 18px;
+}
+
+.risk-card li {
+    margin-bottom: 9px;
+    line-height: 1.5;
+}
+
+.risk-level {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin: 8px 0 12px;
+}
+
+.risk-low {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.risk-moderate {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.risk-high {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.risk-note {
+    font-size: 13px;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .weather-card {
+        padding: 22px;
+    }
+
+    #weather-risk-results {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .weather-card {
+        padding: 18px;
+        margin: 25px 0;
+    }
+
+    .weather-details,
+    #weather-risk-results {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-search {
+        flex-direction: column;
+    }
+
+    .weather-search button {
+        width: 100%;
+    }
+
+    .weather-header {
+        align-items: flex-start;
+    }
+
+    .weather-icon {
+        font-size: 32px;
+    }
+
+    .weather-item {
+        padding: 15px;
+    }
+
+    .weather-risk-section {
+        padding: 15px;
+    }
+
+    .risk-card {
+        padding: 18px;
+    }
+}
+
     </style>
 </head>
 
 <body>
 
 <header class="navbar">
+
     <div class="logo">🌿 PlantCare AI</div>
+
     <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="index.html#how-it-works">How It Works</a>
@@ -123,26 +291,32 @@
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
     </nav>
+
     <a href="upload.html" class="nav-button">Detect Disease</a>
+
 </header>
 
 <main class="result-page">
+
 <section class="result-section">
 
     <div class="section-heading">
         <span class="tagline">AI PLANT HEALTH ANALYSIS</span>
         <h1>Plant Analysis Result</h1>
-        <p>Here is the result of your plant leaf analysis.</p>
+        <p>Here is the result of your Aloe Vera plant leaf analysis.</p>
     </div>
 
     <div class="result-card">
 
         <div class="result-image-section">
             <h2>Uploaded Leaf</h2>
+
             <div class="result-image">
-                <img id="result-leaf-image"
-                     src=""
-                     alt="Uploaded Plant Leaf">
+                <img
+                    id="result-leaf-image"
+                    src=""
+                    alt="Uploaded Aloe Vera Leaf"
+                >
             </div>
         </div>
 
@@ -174,10 +348,42 @@
                 <ul id="care-list">
                     <li>Loading care recommendations...</li>
                 </ul>
+            </div>
 
+            <div class="result-block">
                 <h3>💊 Recommended Treatment</h3>
                 <ul id="treatment-list">
                     <li>Loading treatment recommendations...</li>
+                </ul>
+            </div>
+
+            <div class="result-block">
+                <h3>🧴 Pesticide &amp; Product Guidance</h3>
+                <ul id="pesticide-guidance-list">
+                    <li>Loading product guidance...</li>
+                </ul>
+            </div>
+
+            <div class="result-block">
+                <h3>🐛 Additional Pest Check</h3>
+                <ul>
+                    <li>
+                        Check leaf joints and the underside of leaves for
+                        white cotton-like clusters, which may indicate mealybugs.
+                    </li>
+                    <li>
+                        If pests are visible, isolate the plant and carefully
+                        remove visible insects.
+                    </li>
+                    <li>
+                        Use insecticidal soap or neem-based products only if
+                        the product label permits use on the identified pest
+                        and plant.
+                    </li>
+                    <li>
+                        The current Aloe Vera CNN does not detect insects.
+                        This is a manual inspection tip, not an AI diagnosis.
+                    </li>
                 </ul>
             </div>
 
@@ -191,9 +397,11 @@
     </div>
 
     <!-- WEATHER DASHBOARD -->
+
     <div class="weather-card" id="weather-dashboard">
 
         <div class="weather-header">
+
             <div class="weather-icon">🌦️</div>
 
             <div>
@@ -203,10 +411,11 @@
                     Check your city's weather and get Aloe Vera care recommendations.
                 </p>
             </div>
+
         </div>
 
-        <!-- City Search -->
         <div class="weather-search">
+
             <input
                 type="text"
                 id="weather-city"
@@ -217,14 +426,14 @@
             <button type="button" id="weather-search-button">
                 Check Weather
             </button>
+
         </div>
 
         <p id="weather-message" aria-live="polite">
             Enter your city name to check the weather.
         </p>
 
-        <!-- Weather Results -->
-        <div id="weather-data" style="display: none;">
+        <div id="weather-data">
 
             <h3 id="weather-location"></h3>
 
@@ -262,12 +471,38 @@
 
             </div>
 
-            <!-- 3 Day Forecast -->
             <h3>📅 3-Day Weather Forecast</h3>
 
             <div id="weather-forecast" class="weather-details"></div>
 
-            <!-- Aloe Vera Care -->
+            <!-- WEATHER BASED DISEASE RISK -->
+
+            <div class="weather-risk-section">
+
+                <h3>🌿 Weather-Based Disease Risk Prediction</h3>
+
+                <p id="risk-disease-name">
+                    Analysing selected Aloe Vera condition...
+                </p>
+
+                <p>
+                    Weather conditions are analysed according to the
+                    Aloe Vera disease predicted by the CNN model.
+                </p>
+
+                <div id="weather-risk-results">
+                    <p>Weather risk information will appear here.</p>
+                </div>
+
+                <p class="risk-note">
+                    Note: This is a rule-based weather risk estimate.
+                    It does not confirm disease or predict the exact
+                    time when a disease will spread. Always inspect
+                    the actual plant symptoms.
+                </p>
+
+            </div>
+
             <div class="result-block">
                 <h3>🌱 Aloe Vera Weather Care Recommendations</h3>
                 <ul id="weather-recommendations"></ul>
@@ -277,6 +512,7 @@
     </div>
 
     <div class="result-actions">
+
         <a href="upload.html" class="primary-button">
             Analyze Another Image →
         </a>
@@ -284,6 +520,7 @@
         <a href="index.html" class="secondary-button">
             Back to Home
         </a>
+
     </div>
 
 </section>
@@ -292,10 +529,11 @@
 <script src="../js/app.js"></script>
 
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================
-    // 1. GET PREDICTION DATA FROM LOCAL STORAGE
+    // 1. GET PREDICTION DATA
     // =====================================
 
     const imageData = localStorage.getItem("uploadedLeafImage");
@@ -310,9 +548,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const causesText = document.getElementById("causes-text");
     const careList = document.getElementById("care-list");
     const treatmentList = document.getElementById("treatment-list");
+
+    const pesticideGuidanceList =
+        document.getElementById("pesticide-guidance-list");
+
     const healthNote = document.getElementById("health-note");
 
-    // Display uploaded image
     if (imageData) {
         imageElement.src = imageData;
     } else {
@@ -320,66 +561,92 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =====================================
-    // 2. DISEASE INFORMATION
+    // 2. ALOE VERA DISEASE INFORMATION
     // =====================================
 
     const diseaseInfo = {
 
         "Aloe_Anthracnose": {
+
             symptoms: [
                 "Dark brown or black spots may appear on leaves.",
                 "Affected areas may enlarge under favorable conditions.",
                 "Severely affected leaf tissue may become damaged."
             ],
+
             causes:
                 "Anthracnose is commonly associated with fungal pathogens. Moist conditions and prolonged leaf wetness can encourage fungal diseases.",
+
             care: [
                 "Remove severely affected leaves using clean tools.",
                 "Avoid overhead watering and prolonged leaf wetness.",
                 "Provide good airflow around the plant.",
                 "Avoid spreading potentially infected plant material."
             ],
+
             treatment: [
                 "Remove severely affected leaves using clean tools.",
                 "Keep leaves dry and improve airflow.",
                 "Avoid spreading potentially infected plant material.",
                 "Consult a plant specialist if symptoms continue to spread."
             ],
+
+            pesticideGuidance: [
+                "An AI prediction alone cannot confirm a fungal pathogen.",
+                "Do not apply fungicide based only on the prediction.",
+                "If fungal infection is confirmed, ask a horticulture expert for a product labelled for the identified disease and plant.",
+                "Follow the product label exactly."
+            ],
+
             note:
                 "These are general care suggestions. Confirm the cause before applying any plant treatment."
         },
 
         "Aloe_Healthy": {
+
             symptoms: [
                 "No clear disease symptoms are indicated by this prediction.",
                 "Check that leaves remain firm and healthy.",
                 "Look for unusual spots, discoloration or soft areas."
             ],
+
             causes:
                 "The model classified the image as Aloe Healthy. This does not guarantee that the plant is completely free from disease or pests.",
+
             care: [
                 "Provide bright, suitable light for Aloe Vera.",
                 "Allow the growing medium to dry between waterings.",
                 "Use a pot with drainage holes.",
                 "Inspect the plant regularly."
             ],
+
             treatment: [
                 "No disease-specific treatment is indicated.",
                 "Continue suitable watering and provide adequate light.",
                 "Monitor the plant regularly for new symptoms."
             ],
+
+            pesticideGuidance: [
+                "No pesticide or fungicide is needed for a healthy-looking plant.",
+                "Inspect the plant regularly for insects or unusual symptoms.",
+                "Identify any pest before choosing a product."
+            ],
+
             note:
                 "Continue monitoring the plant. If visible symptoms develop, consider getting it examined."
         },
 
         "Aloe_Leafspot": {
+
             symptoms: [
                 "Brown, dark or discolored spots may appear on leaves.",
                 "Spots may increase in size or number.",
                 "Affected areas may become dry or damaged."
             ],
+
             causes:
                 "Leaf spots can have fungal, bacterial, environmental or other causes. An image prediction alone cannot confirm the exact cause.",
+
             care: [
                 "Avoid unnecessary wetting of leaves.",
                 "Provide good airflow around the plant.",
@@ -387,24 +654,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Ensure proper drainage and avoid overwatering.",
                 "Monitor whether new spots appear."
             ],
+
             treatment: [
                 "Remove badly affected leaves using clean tools.",
                 "Avoid wetting the leaves unnecessarily.",
                 "Check soil drainage and avoid overwatering.",
                 "Seek expert advice if spots continue to spread."
             ],
+
+            pesticideGuidance: [
+                "Leaf spots may have fungal, bacterial or environmental causes.",
+                "Do not select a fungicide until the cause is checked.",
+                "If a fungal cause is confirmed, ask an expert for a product labelled for the identified disease and plant.",
+                "Follow all product label instructions."
+            ],
+
             note:
                 "Leaf spots do not always indicate a fungal infection. Check growing conditions before choosing treatment."
         },
 
         "Aloe_Rust": {
+
             symptoms: [
                 "Orange, reddish-brown or brown marks may appear.",
                 "Discolored patches may develop on leaf surfaces.",
                 "Affected areas may become more noticeable over time."
             ],
+
             causes:
                 "The model predicts the Aloe Rust class. Rust-like marks can have different causes, so an image alone cannot confirm a specific pathogen.",
+
             care: [
                 "Monitor the plant for new discoloration.",
                 "Avoid unnecessary moisture on leaves.",
@@ -412,24 +691,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Use clean tools when removing damaged leaves.",
                 "Seek expert advice if symptoms spread."
             ],
+
             treatment: [
                 "Inspect discolored areas and monitor new growth.",
                 "Remove severely affected leaves using clean tools if appropriate.",
                 "Keep leaves dry and provide good airflow.",
                 "Consult a plant specialist before using disease-specific products."
             ],
+
+            pesticideGuidance: [
+                "Rust-like marks alone cannot confirm a fungal pathogen.",
+                "Do not apply fungicide without confirming the disease.",
+                "If confirmed, ask an expert for a product labelled for the identified disease and plant.",
+                "Follow the product label exactly."
+            ],
+
             note:
                 "Confirm that symptoms match the suspected condition before using a disease-specific treatment."
         },
 
         "Aloe_Sunburn": {
+
             symptoms: [
                 "Leaves may develop reddish, brown or bleached patches.",
                 "Affected areas may look dry or scorched.",
                 "Discoloration may occur after sudden exposure to strong sunlight."
             ],
+
             causes:
                 "Sunburn-like damage can occur when a plant receives more direct sunlight than it can tolerate, especially after a sudden change in light exposure.",
+
             care: [
                 "Move the plant to bright, indirect light temporarily.",
                 "Introduce direct sunlight gradually if appropriate.",
@@ -437,62 +728,92 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Water according to soil dryness and ensure drainage.",
                 "Monitor new growth."
             ],
+
             treatment: [
                 "Move the plant to bright, indirect light temporarily.",
                 "Gradually reintroduce direct sunlight if suitable.",
                 "Avoid removing leaves unless severely damaged.",
                 "Do not use pesticides for sunburn-like damage unless another problem is confirmed."
             ],
+
+            pesticideGuidance: [
+                "Pesticides and fungicides do not treat sunburn.",
+                "Do not apply chemical products for sunburn-like damage.",
+                "Correct the light exposure and monitor new growth."
+            ],
+
             note:
                 "Damaged leaf tissue may not return to its original appearance. Monitor new growth."
         }
     };
 
     // =====================================
-    // 3. DISPLAY PREDICTION
+    // 3. DISPLAY CNN PREDICTION
     // =====================================
 
-    if (prediction) {
+    if (prediction && diseaseInfo[prediction]) {
+
         predictionElement.textContent =
             prediction.replace("Aloe_", "Aloe Vera - ").replaceAll("_", " ");
+
     } else {
-        predictionElement.textContent = "Prediction not available";
+
+        predictionElement.textContent =
+            "Aloe Vera prediction not available";
     }
 
-    // Display confidence
     if (confidence !== null && confidence !== "") {
+
         confidenceElement.textContent =
-            confidence.toString().includes("%") ? confidence : confidence + "%";
+            confidence.toString().includes("%")
+                ? confidence
+                : confidence + "%";
+
     } else {
+
         confidenceElement.textContent = "Not available";
     }
 
-    // Display disease information
-    const info = diseaseInfo[prediction];
-
     function addListItems(element, items) {
+
         element.replaceChildren();
 
         items.forEach(function (item) {
+
             const li = document.createElement("li");
             li.textContent = item;
+
             element.appendChild(li);
         });
     }
 
+    const info = diseaseInfo[prediction];
+
     if (info) {
+
         addListItems(symptomsList, info.symptoms);
+
         causesText.textContent = info.causes;
+
         addListItems(careList, info.care);
+
         addListItems(treatmentList, info.treatment);
+
+        addListItems(
+            pesticideGuidanceList,
+            info.pesticideGuidance
+        );
+
         healthNote.textContent = info.note;
+
     } else {
+
         addListItems(symptomsList, [
-            "No specific symptom information is available for this prediction."
+            "No specific symptom information is available."
         ]);
 
         causesText.textContent =
-            "The predicted class is not supported by the current disease information.";
+            "Please upload a valid Aloe Vera image and analyse it again.";
 
         addListItems(careList, [
             "Inspect the plant carefully.",
@@ -500,60 +821,86 @@ document.addEventListener("DOMContentLoaded", function () {
         ]);
 
         addListItems(treatmentList, [
-            "Confirm the plant condition before choosing a specific treatment."
+            "Confirm the plant condition before choosing treatment."
+        ]);
+
+        addListItems(pesticideGuidanceList, [
+            "Identify the disease or pest before choosing a product."
         ]);
 
         healthNote.textContent =
-            "Please verify the prediction and plant symptoms before taking action.";
+            "PlantCare AI currently supports Aloe Vera only.";
     }
-
 
     // =====================================
     // 4. WEATHER API CONNECTION
     // =====================================
 
-    const weatherButton = document.getElementById("weather-search-button");
-    const cityInput = document.getElementById("weather-city");
+    const weatherButton =
+        document.getElementById("weather-search-button");
 
-    const weatherMessage = document.getElementById("weather-message");
-    const weatherData = document.getElementById("weather-data");
+    const cityInput =
+        document.getElementById("weather-city");
+
+    const weatherMessage =
+        document.getElementById("weather-message");
+
+    const weatherData =
+        document.getElementById("weather-data");
 
     async function loadWeather() {
 
         const city = cityInput.value.trim();
 
         if (!city) {
-            weatherMessage.textContent = "Please enter your city name.";
+
+            weatherMessage.textContent =
+                "Please enter your city name.";
+
             weatherData.style.display = "none";
+
+            return;
+        }
+
+        if (!info) {
+
+            weatherMessage.textContent =
+                "Please analyse a valid Aloe Vera image first.";
+
+            weatherData.style.display = "none";
+
             return;
         }
 
         weatherButton.disabled = true;
         weatherButton.textContent = "Loading...";
 
-        weatherMessage.textContent = "Fetching weather information...";
+        weatherMessage.textContent =
+            "Fetching weather information...";
+
         weatherData.style.display = "none";
 
         try {
 
             const response = await fetch(
                 "http://127.0.0.1:8000/api/weather/?city=" +
-                encodeURIComponent(city)
+                encodeURIComponent(city) +
+                "&disease=" +
+                encodeURIComponent(prediction)
             );
 
             const data = await response.json();
 
             if (!response.ok) {
+
                 throw new Error(
                     data.error || "Unable to fetch weather information."
                 );
             }
 
-            // Display city and country
             document.getElementById("weather-location").textContent =
                 data.city + ", " + data.country;
 
-            // Display current weather
             document.getElementById("weather-temperature").textContent =
                 data.weather.temperature + " °C";
 
@@ -572,7 +919,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("weather-feels").textContent =
                 data.weather.feels_like + " °C";
 
-
             // =====================================
             // 5. THREE-DAY WEATHER FORECAST
             // =====================================
@@ -582,19 +928,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
             forecastElement.replaceChildren();
 
-            data.forecast.dates.forEach(function(date, index) {
+            data.forecast.dates.forEach(function (date, index) {
 
                 const card = document.createElement("div");
                 card.className = "weather-item";
 
                 const day = document.createElement("strong");
 
-                day.textContent = new Date(date + "T00:00:00")
-                    .toLocaleDateString("en-IN", {
-                        weekday: "short",
-                        day: "numeric",
-                        month: "short"
-                    });
+                day.textContent =
+                    new Date(date + "T00:00:00")
+                        .toLocaleDateString("en-IN", {
+                            weekday: "short",
+                            day: "numeric",
+                            month: "short"
+                        });
 
                 const temperature = document.createElement("span");
 
@@ -612,21 +959,142 @@ document.addEventListener("DOMContentLoaded", function () {
                     data.forecast.rain_probability[index] +
                     "%";
 
+                const humidity = document.createElement("span");
+
+                humidity.textContent =
+                    "💧 Humidity: " +
+                    data.forecast.humidity[index] +
+                    "%";
+
                 const uv = document.createElement("span");
 
                 uv.textContent =
                     "☀️ UV Index: " +
                     data.forecast.uv_index[index];
 
-                card.append(day, temperature, rain, uv);
+                card.append(
+                    day,
+                    temperature,
+                    rain,
+                    humidity,
+                    uv
+                );
 
                 forecastElement.appendChild(card);
-
             });
 
+            // =====================================
+            // 6. WEATHER-BASED DISEASE RISK
+            // =====================================
+
+            const riskContainer =
+                document.getElementById("weather-risk-results");
+
+            const riskDiseaseName =
+                document.getElementById("risk-disease-name");
+
+            const riskData =
+                data.weather_disease_risk;
+
+            riskContainer.replaceChildren();
+
+            if (riskData && riskData.daily_risk) {
+
+                riskDiseaseName.textContent =
+                    "Selected Aloe Vera condition: " +
+                    riskData.disease
+                        .replace("Aloe_", "")
+                        .replaceAll("_", " ");
+
+                riskData.daily_risk.forEach(function (day) {
+
+                    const card = document.createElement("div");
+
+                    card.className = "risk-card";
+
+                    const heading = document.createElement("h4");
+
+                    heading.textContent =
+                        new Date(day.date + "T00:00:00")
+                            .toLocaleDateString("en-IN", {
+                                weekday: "long",
+                                day: "numeric",
+                                month: "short"
+                            });
+
+                    const riskBadge = document.createElement("span");
+
+                    riskBadge.className =
+                        "risk-level risk-" +
+                        day.risk_level.toLowerCase();
+
+                    riskBadge.textContent =
+                        day.risk_level + " Weather Risk";
+
+                    const weatherInfo = document.createElement("p");
+
+                    weatherInfo.textContent =
+                        "Temperature: " + day.max_temperature + " °C | " +
+                        "Humidity: " + day.humidity + "% | " +
+                        "Rain: " + day.rain_probability + "% | " +
+                        "UV: " + day.uv_index;
+
+                    const reasonHeading =
+                        document.createElement("strong");
+
+                    reasonHeading.textContent = "Why this risk?";
+
+                    const reasonList = document.createElement("ul");
+
+                    day.reasons.forEach(function (reason) {
+
+                        const li = document.createElement("li");
+
+                        li.textContent = reason;
+
+                        reasonList.appendChild(li);
+                    });
+
+                    const adviceHeading =
+                        document.createElement("strong");
+
+                    adviceHeading.textContent = "What should you do?";
+
+                    const adviceList = document.createElement("ul");
+
+                    day.recommendations.forEach(function (recommendation) {
+
+                        const li = document.createElement("li");
+
+                        li.textContent = recommendation;
+
+                        adviceList.appendChild(li);
+                    });
+
+                    card.append(
+                        heading,
+                        riskBadge,
+                        weatherInfo,
+                        reasonHeading,
+                        reasonList,
+                        adviceHeading,
+                        adviceList
+                    );
+
+                    riskContainer.appendChild(card);
+                });
+
+            } else {
+
+                riskDiseaseName.textContent =
+                    "Weather risk information is unavailable.";
+
+                riskContainer.textContent =
+                    "Please try checking the weather again.";
+            }
 
             // =====================================
-            // 6. ALOE VERA CARE RECOMMENDATIONS
+            // 7. ALOE VERA CARE RECOMMENDATIONS
             // =====================================
 
             const recommendationList =
@@ -634,14 +1102,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             recommendationList.replaceChildren();
 
-            data.aloe_care_recommendations.forEach(function(item) {
+            data.aloe_care_recommendations.forEach(function (item) {
 
                 const li = document.createElement("li");
 
                 li.textContent = item;
 
                 recommendationList.appendChild(li);
-
             });
 
             weatherData.style.display = "block";
@@ -660,24 +1127,22 @@ document.addEventListener("DOMContentLoaded", function () {
         } finally {
 
             weatherButton.disabled = false;
-            weatherButton.textContent = "Check Weather";
 
+            weatherButton.textContent = "Check Weather";
         }
     }
 
-    // Button click event
     weatherButton.addEventListener("click", loadWeather);
 
-    // Enter key event
-    cityInput.addEventListener("keydown", function(event) {
+    cityInput.addEventListener("keydown", function (event) {
 
         if (event.key === "Enter") {
             loadWeather();
         }
-
     });
 
 });
+
 </script>
 
 </body>
