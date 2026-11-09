@@ -3,6 +3,10 @@ from pathlib import Path
 import numpy as np
 import tensorflow as tf
 
+import json
+from urllib.parse import urlencode
+from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
 from PIL import Image, UnidentifiedImageError
 
 from rest_framework.decorators import api_view, parser_classes
@@ -61,7 +65,7 @@ def is_valid_aloe_leaf(img):
     print("Validator input image size:", img.size)
     
     return float(prediction) < 0.5
-
+ 
     
 
 
@@ -175,3 +179,130 @@ def upload_leaf(request):
 class PredictionHistoryListView(generics.ListAPIView):
     queryset = PredictionHistory.objects.all().order_by("-prediction_date")
     serializer_class = PredictionHistorySerializer 
+    
+    
+@api_view(["GET"])
+def weather_by_city(request):
+
+    city = request.GET.get("city", "").strip()
+
+    if not city:
+        return Response(
+            {"error": "Please enter a city name."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        # Find city coordinates
+        geo_url = "https://geocoding-api.open-meteo.com/v1/search?"
+
+        geo_params = urlencode({
+            "name": city,
+            "count": 1,
+            "language": "en",
+            "format": "json"
+        })
+
+        with urlopen(geo_url + geo_params, timeout=15) as response:
+            geo_data = json.loads(response.read().decode("utf-8"))
+
+        if not geo_data.get("results"):
+            return Response(
+                {"error": "City not found. Please enter a valid city name."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        location = geo_data["results"][0]
+
+        latitude = location["latitude"]
+        longitude = location["longitude"]
+
+        # Get weather data
+        weather_url = "https://api.open-meteo.com/v1/forecast?"
+
+        weather_params = urlencode({
+            "latitude": latitude,
+            "longitude": longitude,
+            "current": "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m",
+            "daily": "temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max",
+            "forecast_days": 3,
+            "timezone": "auto"
+        })
+
+        with urlopen(weather_url + weather_params, timeout=15) as response:
+            weather_data = json.loads(response.read().decode("utf-8"))
+
+        current = weather_data["current"]
+        daily = weather_data["daily"]
+
+        temperature = current["temperature_2m"]
+        humidity = current["relative_humidity_2m"]
+        rain_probability = daily["precipitation_probability_max"][0]
+        uv_index = daily["uv_index_max"][0]
+
+        # Aloe Vera care suggestions
+        recommendations = []
+
+        if temperature >= 35:
+            recommendations.append(
+                "Protect Aloe Vera from extreme afternoon heat."
+            )
+        elif temperature <= 10:
+            recommendations.append(
+                "Protect Aloe Vera from very cold temperatures."
+            )
+        else:
+            recommendations.append(
+                "Temperature is suitable for normal Aloe Vera care."
+            )
+
+        if humidity >= 75:
+            recommendations.append(
+                "High humidity. Avoid overwatering and maintain good airflow."
+            )
+
+        if rain_probability is not None and rain_probability >= 60:
+            recommendations.append(
+                "Rain is likely. Protect the plant from excess rainfall."
+            )
+
+        if uv_index is not None and uv_index >= 6:
+            recommendations.append(
+                "UV levels are high. Avoid sudden exposure to intense sunlight."
+            )
+
+        return Response({
+            "status": "success",
+            "city": location["name"],
+            "country": location.get("country", ""),
+            "weather": {
+                "temperature": temperature,
+                "humidity": humidity,
+                "feels_like": current["apparent_temperature"],
+                "rainfall": current["precipitation"],
+                "rain_probability": rain_probability,
+                "wind_speed": current["wind_speed_10m"],
+                "uv_index": uv_index,
+                "weather_code": current["weather_code"]
+            },
+            "forecast": {
+                "dates": daily["time"],
+                "max_temperature": daily["temperature_2m_max"],
+                "min_temperature": daily["temperature_2m_min"],
+                "rain_probability": daily["precipitation_probability_max"],
+                "uv_index": daily["uv_index_max"]
+            },
+            "aloe_care_recommendations": recommendations
+        })
+
+    except (HTTPError, URLError, TimeoutError):
+        return Response(
+            {"error": "Weather service is temporarily unavailable."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE
+        )
+
+    except (ValueError, KeyError, IndexError):
+        return Response(
+            {"error": "Unable to process weather data."},
+            status=status.HTTP_502_BAD_GATEWAY
+        )

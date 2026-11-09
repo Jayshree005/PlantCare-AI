@@ -1,497 +1,684 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Plant Analysis Result - PlantCare AI</title>
-
     <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Weather Dashboard Styling -->
+    <style>
+        .weather-card {
+            margin: 35px 0;
+            padding: 28px;
+            border-radius: 18px;
+            background: rgba(10, 35, 25, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .weather-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .weather-icon {
+            font-size: 45px;
+        }
+
+        .weather-search {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0 12px;
+        }
+
+        .weather-search input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        .weather-search button {
+            padding: 13px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #8bc98d;
+            color: #102519;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .weather-search button:hover {
+            background: #a5dba7;
+        }
+
+        .weather-search button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #weather-message {
+            margin: 12px 0;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .weather-item {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.09);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .weather-item strong {
+            font-size: 21px;
+        }
+
+        #weather-dashboard h3 {
+            margin-top: 22px;
+        }
+
+        #weather-recommendations li {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .weather-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .weather-search {
+                flex-direction: column;
+            }
+
+            .weather-search button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <header class="navbar">
+<header class="navbar">
+    <div class="logo">🌿 PlantCare AI</div>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="index.html#features">Features</a>
+        <a href="about.html">About</a>
+        <a href="history.html">History</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </nav>
+    <a href="upload.html" class="nav-button">Detect Disease</a>
+</header>
 
-        <div class="logo">
-            🌿 PlantCare AI
+<main class="result-page">
+<section class="result-section">
+
+    <div class="section-heading">
+        <span class="tagline">AI PLANT HEALTH ANALYSIS</span>
+        <h1>Plant Analysis Result</h1>
+        <p>Here is the result of your plant leaf analysis.</p>
+    </div>
+
+    <div class="result-card">
+
+        <div class="result-image-section">
+            <h2>Uploaded Leaf</h2>
+            <div class="result-image">
+                <img id="result-leaf-image"
+                     src=""
+                     alt="Uploaded Plant Leaf">
+            </div>
         </div>
 
-        <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#how-it-works">How It Works</a>
-            <a href="index.html#features">Features</a>
-            <a href="index.html#about">About</a>
-        </nav>
+        <div class="result-info">
 
-    </header>
+            <span class="result-label">AI PREDICTION</span>
 
+            <h2 id="prediction-name">Loading prediction...</h2>
 
-    <!-- Result Page -->
-    <main class="result-page">
+            <div class="confidence">
+                <span>Confidence</span>
+                <strong id="prediction-confidence">--</strong>
+            </div>
 
-        <section class="result-section">
+            <div class="result-block">
+                <h3>🔍 Symptoms</h3>
+                <ul id="symptoms-list">
+                    <li>Loading symptoms...</li>
+                </ul>
+            </div>
 
-            <!-- Page Heading -->
-            <div class="section-heading">
+            <div class="result-block">
+                <h3>🦠 Possible Causes</h3>
+                <p id="causes-text">Loading possible causes...</p>
+            </div>
 
-                <span class="tagline">
-                    AI PLANT HEALTH ANALYSIS
-                </span>
+            <div class="result-block">
+                <h3>🌱 Prevention &amp; Care</h3>
+                <ul id="care-list">
+                    <li>Loading care recommendations...</li>
+                </ul>
 
-                <h1>Plant Analysis Result</h1>
+                <h3>💊 Recommended Treatment</h3>
+                <ul id="treatment-list">
+                    <li>Loading treatment recommendations...</li>
+                </ul>
+            </div>
 
-                <p>
-                    Here is the result of your plant leaf analysis.
+            <div class="result-block">
+                <p id="health-note">
+                    AI predictions are estimates. Always check actual plant symptoms.
                 </p>
-
             </div>
 
+        </div>
+    </div>
 
-            <!-- Result Card -->
-            <div class="result-card">
+    <!-- WEATHER DASHBOARD -->
+    <div class="weather-card" id="weather-dashboard">
 
-                <!-- Uploaded Image -->
-                <div class="result-image-section">
+        <div class="weather-header">
+            <div class="weather-icon">🌦️</div>
 
-                    <h2>Uploaded Leaf</h2>
+            <div>
+                <span class="result-label">LIVE WEATHER ANALYSIS</span>
+                <h2>PlantCare Weather Dashboard</h2>
+                <p>
+                    Check your city's weather and get Aloe Vera care recommendations.
+                </p>
+            </div>
+        </div>
 
-                    <div class="result-image">
-                        <img
-                            id="result-leaf-image"
-                            src=""
-                            alt="Uploaded Plant Leaf"
-                        >
-                    </div>
+        <!-- City Search -->
+        <div class="weather-search">
+            <input
+                type="text"
+                id="weather-city"
+                placeholder="Enter your city, e.g. Delhi"
+                autocomplete="off"
+            >
 
+            <button type="button" id="weather-search-button">
+                Check Weather
+            </button>
+        </div>
+
+        <p id="weather-message" aria-live="polite">
+            Enter your city name to check the weather.
+        </p>
+
+        <!-- Weather Results -->
+        <div id="weather-data" style="display: none;">
+
+            <h3 id="weather-location"></h3>
+
+            <div class="weather-details">
+
+                <div class="weather-item">
+                    <span>🌡️ Temperature</span>
+                    <strong id="weather-temperature">--</strong>
                 </div>
 
+                <div class="weather-item">
+                    <span>💧 Humidity</span>
+                    <strong id="weather-humidity">--</strong>
+                </div>
 
-                <!-- Result Information -->
-                <div class="result-info">
+                <div class="weather-item">
+                    <span>🌧️ Rain Probability</span>
+                    <strong id="weather-rain">--</strong>
+                </div>
 
-                    <span class="result-label">
-                        AI PREDICTION
-                    </span>
+                <div class="weather-item">
+                    <span>☀️ UV Index</span>
+                    <strong id="weather-uv">--</strong>
+                </div>
 
-                    <h2 id="prediction-name">
-                        Analyzing image...
-                    </h2>
+                <div class="weather-item">
+                    <span>💨 Wind Speed</span>
+                    <strong id="weather-wind">--</strong>
+                </div>
 
-                    <div class="confidence">
-
-                        <span>Confidence</span>
-
-                        <strong id="prediction-confidence">
-                            --
-                        </strong>
-
-                    </div>
-
-
-                    <!-- Symptoms -->
-                    <div class="result-block">
-
-                        <h3>🔍 Symptoms</h3>
-
-                        <ul id="symptoms-list">
-                            <li>Loading symptoms...</li>
-                        </ul>
-
-                    </div>
-
-
-                    <!-- Possible Causes -->
-                    <div class="result-block">
-
-                        <h3>🦠 Possible Causes</h3>
-
-                        <p id="causes-text">
-                            Loading possible causes...
-                        </p>
-
-                    </div>
-
-
-                    <!-- Prevention and Care -->
-                    <div class="result-block">
-                        <h3>🌱 Prevention &amp; Care</h3>
-                        <ul id="care-list">
-                            <li>Loading care recommendations...</li>
-                        </ul>
-                        
-                        <h3> 💊Recommended Treatment</h3>
-                        <ul id="treatment-list">
-                            <li>Treatment recommendations will appear here.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Important Note -->
-                    <div class="result-block">
-
-                        <p id="health-note">
-                            AI predictions are estimates and should
-                            be checked against the actual plant symptoms.
-                        </p>
-
-                    </div>
-
+                <div class="weather-item">
+                    <span>🌡️ Feels Like</span>
+                    <strong id="weather-feels">--</strong>
                 </div>
 
             </div>
 
+            <!-- 3 Day Forecast -->
+            <h3>📅 3-Day Weather Forecast</h3>
 
-            <!-- Weather Section -->
-            <div class="weather-card">
+            <div id="weather-forecast" class="weather-details"></div>
 
-                <div class="weather-icon">
-                    🌦️
-                </div>
-
-                <div>
-
-                    <span class="result-label">
-                        WEATHER-BASED RISK
-                    </span>
-
-                    <h2>Weather Analysis Coming Soon</h2>
-
-                    <p>
-                        Temperature, humidity and rainfall data
-                        will later be used to provide additional
-                        disease-risk information.
-                    </p>
-
-                </div>
-
+            <!-- Aloe Vera Care -->
+            <div class="result-block">
+                <h3>🌱 Aloe Vera Weather Care Recommendations</h3>
+                <ul id="weather-recommendations"></ul>
             </div>
 
-
-            <!-- Action Buttons -->
-            <div class="result-actions">
-
-                <a href="upload.html" class="primary-button">
-                    Analyze Another Image →
-                </a>
-
-                <a href="index.html" class="secondary-button">
-                    Back to Home
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- Existing JavaScript -->
-    <script src="../js/app.js"></script>
-
-
-    <!-- Disease-Specific Information -->
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const prediction = (
-                localStorage.getItem("predictionName") || ""
-            ).trim();
-
-            const symptomsList =
-                document.getElementById("symptoms-list");
-
-            const causesText =
-                document.getElementById("causes-text");
-
-            const careList =
-                document.getElementById("care-list");
-
-            const treatmentList =
-                document.getElementById("treatment-list");
-
-            const healthNote =
-                document.getElementById("health-note");
-
-
-            // Disease information for supported Aloe Vera classes
-            const diseaseInfo = {
-
-                "Aloe_Anthracnose": {
-
-                    symptoms: [
-                        "Dark brown or black spots may appear on leaves.",
-                        "Affected areas may enlarge under favorable conditions.",
-                        "Severely affected leaf tissue may become damaged."
-                    ],
-
-                    causes:
-                        "Anthracnose is commonly associated with fungal pathogens. " +
-                        "Moist conditions and prolonged leaf wetness can encourage " +
-                        "some fungal diseases.",
-
-                    care: [
-                        "Remove severely affected leaves using clean tools.",
-                        "Avoid overhead watering and prolonged leaf wetness.",
-                        "Provide good airflow around the plant.",
-                        "Avoid spreading potentially infected plant material."
-                    ],
-
-                    treatment: [
-                        "Remove severely affected leaves using clean tools.",
-                        "Keep leaves dry and improve airflow around the plant.",
-                        "Avoid spreading potentially infected plant material.",
-                        "Consult a plant specialist if the symptoms continue to spread."
-],
-
-                    note:
-                        "These are general care suggestions. Confirm the cause " +
-                        "before applying any plant treatment."
-                },
-
-
-                "Aloe_Healthy": {
-
-                    symptoms: [
-                        "No clear disease symptoms are indicated by this prediction.",
-                        "Check that leaves remain firm and healthy.",
-                        "Look for unusual spots, discoloration or soft areas."
-                    ],
-
-                    causes:
-                        "The model classified the image as Aloe Healthy. " +
-                        "This does not guarantee that the plant is completely " +
-                        "free from disease or pests.",
-
-                    care: [
-                        "Provide bright, suitable light for Aloe Vera.",
-                        "Allow the growing medium to dry between waterings.",
-                        "Use a pot with drainage holes.",
-                        "Inspect the plant regularly for changes."
-                    ],
-
-                    treatment: [
-                        "No disease-specific treatment is indicated by this prediction.",
-                        "Continue suitable watering and provide adequate light.",
-                        "Monitor the plant regularly for new symptoms."
-                    ],
-
-                    note:
-                        "Continue monitoring the plant. If visible symptoms " +
-                        "develop, consider getting the plant examined."
-                },
-
-
-                "Aloe_Leafspot": {
-
-                    symptoms: [
-                        "Brown, dark or discolored spots may appear on leaves.",
-                        "Spots may increase in size or number.",
-                        "Some affected areas may become dry or damaged."
-                    ],
-
-                    causes:
-                        "Leaf spots can have fungal, bacterial, environmental " +
-                        "or other causes. The image prediction alone cannot " +
-                        "confirm the exact cause.",
-
-                    care: [
-                        "Avoid unnecessary wetting of the leaves.",
-                        "Provide good airflow around the plant.",
-                        "Remove badly damaged leaves with clean tools.",
-                        "Check watering practices and ensure proper drainage.",
-                        "Monitor whether new spots continue to appear."
-                    ],
-
-                    treatment: [
-                        "Remove badly affected leaves using clean tools.",
-                        "Avoid wetting the leaves unnecessarily.",
-                        "Check soil drainage and avoid overwatering.",
-                        "Seek expert advice if the spots continue to spread."
-],
-
-                    note:
-                        "Leaf spots do not always indicate a fungal infection. " +
-                        "Check the plant's growing conditions before choosing treatment."
-                },
-
-
-                "Aloe_Rust": {
-
-                    symptoms: [
-                        "Orange, reddish-brown or brown marks may appear.",
-                        "Discolored patches may develop on leaf surfaces.",
-                        "Affected areas may become more noticeable over time."
-                    ],
-
-                    causes:
-                        "The model predicts the Aloe Rust class. Rust-like marks " +
-                        "can have different causes, so the image alone cannot " +
-                        "confirm a specific pathogen.",
-
-                    care: [
-                        "Keep the plant under observation for new discoloration.",
-                        "Avoid unnecessary moisture on the leaves.",
-                        "Provide suitable airflow and light.",
-                        "Use clean tools when removing badly damaged leaves.",
-                        "Seek expert advice if the symptoms continue to spread."
-                    ],
-
-                    treatment: [
-                        "Inspect the discolored areas and monitor new growth.",
-                        "Remove severely affected leaves using clean tools if appropriate.",
-                        "Keep the leaves dry and provide good airflow.",
-                        "Consult a plant specialist before using disease-specific products."
-                    ],  
-            
-                    note:
-                        "Confirm that the symptoms match the suspected condition " +
-                        "before using a disease-specific treatment."
-                },
-
-
-                "Aloe_Sunburn": {
-
-                    symptoms: [
-                        "Leaves may develop reddish, brown or bleached patches.",
-                        "Affected areas may look dry or scorched.",
-                        "Discoloration may occur after sudden exposure to strong sunlight."
-                    ],
-
-                    causes:
-                        "Sunburn-like damage can occur when a plant receives " +
-                        "more direct sunlight than it can tolerate, especially " +
-                        "after a sudden change in light exposure.",
-
-                    care: [
-                        "Move the plant to bright, indirect light temporarily.",
-                        "Introduce direct sunlight gradually if appropriate.",
-                        "Avoid sudden changes in the plant's environment.",
-                        "Water according to the soil's dryness and ensure drainage.",
-                        "Monitor new growth for signs of improvement."
-                    ],
-
-                    treatment: [
-                        "Move the plant to bright, indirect light temporarily.",
-                        "Gradually reintroduce direct sunlight if suitable.",
-                        "Avoid removing leaves unless they are severely damaged.",
-                        "Do not use pesticides for sunburn-like damage unless another problem is confirmed."
-                    ],
-
-                    note:
-                        "Damaged leaf tissue may not return to its original appearance. " +
-                        "Monitor new growth to assess the plant's condition."
-                }
-
-            };
-
-
-            // Select information for the predicted class
-            const info = diseaseInfo[prediction];
-
-
-            if (info) {
-
-                // Update symptoms
-                symptomsList.replaceChildren();
-
-                info.symptoms.forEach(function (symptom) {
-
-                    const li = document.createElement("li");
-
-                    li.textContent = symptom;
-
-                    symptomsList.appendChild(li);
-
-                });
-
-
-                // Update possible causes
-                causesText.textContent = info.causes;
-
-
-                // Update prevention and care
-                careList.replaceChildren();
-
-                info.care.forEach(function (careTip) {
-
-                    const li = document.createElement("li");
-
-                    li.textContent = careTip;
-
-                    careList.appendChild(li);
-
-                });
-
-
-
-                // Update recommended treatment
-                treatmentList.replaceChildren();
-
-                info.treatment.forEach(function (treatmentTip) {
-
-                    const li = document.createElement("li");
-
-                    li.textContent = treatmentTip;
-
-                    treatmentList.appendChild(li);
-                
-                });
-
-
-                // Update note
-                healthNote.textContent = info.note;
-
-            } else {
-
-                symptomsList.replaceChildren();
-
-                const symptomItem = document.createElement("li");
-
-                symptomItem.textContent =
-                    "No specific symptom information is available for this prediction.";
-
-                symptomsList.appendChild(symptomItem);
-
-
-                causesText.textContent =
-                    "The predicted class is not supported by the current " +
-                    "disease information database.";
-
-
-                careList.replaceChildren();
-
-                const careItem = document.createElement("li");
-
-                careItem.textContent =
-                    "Inspect the plant carefully and seek expert advice " +
-                    "before applying treatment.";
-
-                careList.appendChild(careItem);
-
-                treatmentList.replaceChildren();
-                
-                const treatmentItem = document.createElement("li");
-                
-                treatmentItem.textContent =
-                
-                        "Confirm the plant condition before choosing a specific treatment.";
-                
-                treatmentList.appendChild(treatmentItem);
-
-
-                healthNote.textContent =
-                    "Please verify the prediction and plant symptoms before " +
-                    "taking any action.";
-
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <a href="upload.html" class="primary-button">
+            Analyze Another Image →
+        </a>
+
+        <a href="index.html" class="secondary-button">
+            Back to Home
+        </a>
+    </div>
+
+</section>
+</main>
+
+<script src="../js/app.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // =====================================
+    // 1. GET PREDICTION DATA FROM LOCAL STORAGE
+    // =====================================
+
+    const imageData = localStorage.getItem("uploadedLeafImage");
+    const prediction = (localStorage.getItem("predictionName") || "").trim();
+    const confidence = localStorage.getItem("predictionConfidence");
+
+    const imageElement = document.getElementById("result-leaf-image");
+    const predictionElement = document.getElementById("prediction-name");
+    const confidenceElement = document.getElementById("prediction-confidence");
+
+    const symptomsList = document.getElementById("symptoms-list");
+    const causesText = document.getElementById("causes-text");
+    const careList = document.getElementById("care-list");
+    const treatmentList = document.getElementById("treatment-list");
+    const healthNote = document.getElementById("health-note");
+
+    // Display uploaded image
+    if (imageData) {
+        imageElement.src = imageData;
+    } else {
+        imageElement.alt = "No uploaded image found";
+    }
+
+    // =====================================
+    // 2. DISEASE INFORMATION
+    // =====================================
+
+    const diseaseInfo = {
+
+        "Aloe_Anthracnose": {
+            symptoms: [
+                "Dark brown or black spots may appear on leaves.",
+                "Affected areas may enlarge under favorable conditions.",
+                "Severely affected leaf tissue may become damaged."
+            ],
+            causes:
+                "Anthracnose is commonly associated with fungal pathogens. Moist conditions and prolonged leaf wetness can encourage fungal diseases.",
+            care: [
+                "Remove severely affected leaves using clean tools.",
+                "Avoid overhead watering and prolonged leaf wetness.",
+                "Provide good airflow around the plant.",
+                "Avoid spreading potentially infected plant material."
+            ],
+            treatment: [
+                "Remove severely affected leaves using clean tools.",
+                "Keep leaves dry and improve airflow.",
+                "Avoid spreading potentially infected plant material.",
+                "Consult a plant specialist if symptoms continue to spread."
+            ],
+            note:
+                "These are general care suggestions. Confirm the cause before applying any plant treatment."
+        },
+
+        "Aloe_Healthy": {
+            symptoms: [
+                "No clear disease symptoms are indicated by this prediction.",
+                "Check that leaves remain firm and healthy.",
+                "Look for unusual spots, discoloration or soft areas."
+            ],
+            causes:
+                "The model classified the image as Aloe Healthy. This does not guarantee that the plant is completely free from disease or pests.",
+            care: [
+                "Provide bright, suitable light for Aloe Vera.",
+                "Allow the growing medium to dry between waterings.",
+                "Use a pot with drainage holes.",
+                "Inspect the plant regularly."
+            ],
+            treatment: [
+                "No disease-specific treatment is indicated.",
+                "Continue suitable watering and provide adequate light.",
+                "Monitor the plant regularly for new symptoms."
+            ],
+            note:
+                "Continue monitoring the plant. If visible symptoms develop, consider getting it examined."
+        },
+
+        "Aloe_Leafspot": {
+            symptoms: [
+                "Brown, dark or discolored spots may appear on leaves.",
+                "Spots may increase in size or number.",
+                "Affected areas may become dry or damaged."
+            ],
+            causes:
+                "Leaf spots can have fungal, bacterial, environmental or other causes. An image prediction alone cannot confirm the exact cause.",
+            care: [
+                "Avoid unnecessary wetting of leaves.",
+                "Provide good airflow around the plant.",
+                "Remove badly damaged leaves with clean tools.",
+                "Ensure proper drainage and avoid overwatering.",
+                "Monitor whether new spots appear."
+            ],
+            treatment: [
+                "Remove badly affected leaves using clean tools.",
+                "Avoid wetting the leaves unnecessarily.",
+                "Check soil drainage and avoid overwatering.",
+                "Seek expert advice if spots continue to spread."
+            ],
+            note:
+                "Leaf spots do not always indicate a fungal infection. Check growing conditions before choosing treatment."
+        },
+
+        "Aloe_Rust": {
+            symptoms: [
+                "Orange, reddish-brown or brown marks may appear.",
+                "Discolored patches may develop on leaf surfaces.",
+                "Affected areas may become more noticeable over time."
+            ],
+            causes:
+                "The model predicts the Aloe Rust class. Rust-like marks can have different causes, so an image alone cannot confirm a specific pathogen.",
+            care: [
+                "Monitor the plant for new discoloration.",
+                "Avoid unnecessary moisture on leaves.",
+                "Provide suitable airflow and light.",
+                "Use clean tools when removing damaged leaves.",
+                "Seek expert advice if symptoms spread."
+            ],
+            treatment: [
+                "Inspect discolored areas and monitor new growth.",
+                "Remove severely affected leaves using clean tools if appropriate.",
+                "Keep leaves dry and provide good airflow.",
+                "Consult a plant specialist before using disease-specific products."
+            ],
+            note:
+                "Confirm that symptoms match the suspected condition before using a disease-specific treatment."
+        },
+
+        "Aloe_Sunburn": {
+            symptoms: [
+                "Leaves may develop reddish, brown or bleached patches.",
+                "Affected areas may look dry or scorched.",
+                "Discoloration may occur after sudden exposure to strong sunlight."
+            ],
+            causes:
+                "Sunburn-like damage can occur when a plant receives more direct sunlight than it can tolerate, especially after a sudden change in light exposure.",
+            care: [
+                "Move the plant to bright, indirect light temporarily.",
+                "Introduce direct sunlight gradually if appropriate.",
+                "Avoid sudden environmental changes.",
+                "Water according to soil dryness and ensure drainage.",
+                "Monitor new growth."
+            ],
+            treatment: [
+                "Move the plant to bright, indirect light temporarily.",
+                "Gradually reintroduce direct sunlight if suitable.",
+                "Avoid removing leaves unless severely damaged.",
+                "Do not use pesticides for sunburn-like damage unless another problem is confirmed."
+            ],
+            note:
+                "Damaged leaf tissue may not return to its original appearance. Monitor new growth."
+        }
+    };
+
+    // =====================================
+    // 3. DISPLAY PREDICTION
+    // =====================================
+
+    if (prediction) {
+        predictionElement.textContent =
+            prediction.replace("Aloe_", "Aloe Vera - ").replaceAll("_", " ");
+    } else {
+        predictionElement.textContent = "Prediction not available";
+    }
+
+    // Display confidence
+    if (confidence !== null && confidence !== "") {
+        confidenceElement.textContent =
+            confidence.toString().includes("%") ? confidence : confidence + "%";
+    } else {
+        confidenceElement.textContent = "Not available";
+    }
+
+    // Display disease information
+    const info = diseaseInfo[prediction];
+
+    function addListItems(element, items) {
+        element.replaceChildren();
+
+        items.forEach(function (item) {
+            const li = document.createElement("li");
+            li.textContent = item;
+            element.appendChild(li);
+        });
+    }
+
+    if (info) {
+        addListItems(symptomsList, info.symptoms);
+        causesText.textContent = info.causes;
+        addListItems(careList, info.care);
+        addListItems(treatmentList, info.treatment);
+        healthNote.textContent = info.note;
+    } else {
+        addListItems(symptomsList, [
+            "No specific symptom information is available for this prediction."
+        ]);
+
+        causesText.textContent =
+            "The predicted class is not supported by the current disease information.";
+
+        addListItems(careList, [
+            "Inspect the plant carefully.",
+            "Seek expert advice before applying treatment."
+        ]);
+
+        addListItems(treatmentList, [
+            "Confirm the plant condition before choosing a specific treatment."
+        ]);
+
+        healthNote.textContent =
+            "Please verify the prediction and plant symptoms before taking action.";
+    }
+
+
+    // =====================================
+    // 4. WEATHER API CONNECTION
+    // =====================================
+
+    const weatherButton = document.getElementById("weather-search-button");
+    const cityInput = document.getElementById("weather-city");
+
+    const weatherMessage = document.getElementById("weather-message");
+    const weatherData = document.getElementById("weather-data");
+
+    async function loadWeather() {
+
+        const city = cityInput.value.trim();
+
+        if (!city) {
+            weatherMessage.textContent = "Please enter your city name.";
+            weatherData.style.display = "none";
+            return;
+        }
+
+        weatherButton.disabled = true;
+        weatherButton.textContent = "Loading...";
+
+        weatherMessage.textContent = "Fetching weather information...";
+        weatherData.style.display = "none";
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/api/weather/?city=" +
+                encodeURIComponent(city)
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Unable to fetch weather information."
+                );
             }
 
-        });
+            // Display city and country
+            document.getElementById("weather-location").textContent =
+                data.city + ", " + data.country;
 
-    </script>
+            // Display current weather
+            document.getElementById("weather-temperature").textContent =
+                data.weather.temperature + " °C";
+
+            document.getElementById("weather-humidity").textContent =
+                data.weather.humidity + "%";
+
+            document.getElementById("weather-rain").textContent =
+                data.weather.rain_probability + "%";
+
+            document.getElementById("weather-uv").textContent =
+                data.weather.uv_index;
+
+            document.getElementById("weather-wind").textContent =
+                data.weather.wind_speed + " km/h";
+
+            document.getElementById("weather-feels").textContent =
+                data.weather.feels_like + " °C";
+
+
+            // =====================================
+            // 5. THREE-DAY WEATHER FORECAST
+            // =====================================
+
+            const forecastElement =
+                document.getElementById("weather-forecast");
+
+            forecastElement.replaceChildren();
+
+            data.forecast.dates.forEach(function(date, index) {
+
+                const card = document.createElement("div");
+                card.className = "weather-item";
+
+                const day = document.createElement("strong");
+
+                day.textContent = new Date(date + "T00:00:00")
+                    .toLocaleDateString("en-IN", {
+                        weekday: "short",
+                        day: "numeric",
+                        month: "short"
+                    });
+
+                const temperature = document.createElement("span");
+
+                temperature.textContent =
+                    "🌡️ Max: " +
+                    data.forecast.max_temperature[index] +
+                    " °C | Min: " +
+                    data.forecast.min_temperature[index] +
+                    " °C";
+
+                const rain = document.createElement("span");
+
+                rain.textContent =
+                    "🌧️ Rain: " +
+                    data.forecast.rain_probability[index] +
+                    "%";
+
+                const uv = document.createElement("span");
+
+                uv.textContent =
+                    "☀️ UV Index: " +
+                    data.forecast.uv_index[index];
+
+                card.append(day, temperature, rain, uv);
+
+                forecastElement.appendChild(card);
+
+            });
+
+
+            // =====================================
+            // 6. ALOE VERA CARE RECOMMENDATIONS
+            // =====================================
+
+            const recommendationList =
+                document.getElementById("weather-recommendations");
+
+            recommendationList.replaceChildren();
+
+            data.aloe_care_recommendations.forEach(function(item) {
+
+                const li = document.createElement("li");
+
+                li.textContent = item;
+
+                recommendationList.appendChild(li);
+
+            });
+
+            weatherData.style.display = "block";
+
+            weatherMessage.textContent =
+                "Weather information updated successfully!";
+
+        } catch (error) {
+
+            weatherData.style.display = "none";
+
+            weatherMessage.textContent = error.message;
+
+            console.error("Weather API Error:", error);
+
+        } finally {
+
+            weatherButton.disabled = false;
+            weatherButton.textContent = "Check Weather";
+
+        }
+    }
+
+    // Button click event
+    weatherButton.addEventListener("click", loadWeather);
+
+    // Enter key event
+    cityInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+            loadWeather();
+        }
+
+    });
+
+});
+</script>
 
 </body>
-
 </html>
