@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,15 +13,10 @@
 
 <body>
 
-    <!-- ============================= -->
     <!-- NAVBAR -->
-    <!-- ============================= -->
-
     <header class="navbar">
 
-        <div class="logo">
-            🌿 PlantCare AI
-        </div>
+        <div class="logo">🌿 PlantCare AI</div>
 
         <nav class="nav-links">
             <a href="index.html">Home</a>
@@ -39,25 +35,16 @@
     </header>
 
 
-    <!-- ============================= -->
     <!-- HISTORY PAGE -->
-    <!-- ============================= -->
-
     <main class="history-page">
 
         <section class="history-section">
 
-            <!-- Heading -->
-
             <div class="section-heading">
 
-                <span class="tagline">
-                    PLANT HEALTH RECORDS
-                </span>
+                <span class="tagline">PLANT HEALTH RECORDS</span>
 
-                <h1>
-                    Prediction History
-                </h1>
+                <h1>Prediction History</h1>
 
                 <p>
                     View your previous plant disease analysis
@@ -67,20 +54,15 @@
             </div>
 
 
-            <!-- History Card -->
-
+            <!-- HISTORY CARD -->
             <div class="history-card">
 
                 <div class="history-header">
 
                     <div>
-                        <h2>
-                            Recent Predictions
-                        </h2>
+                        <h2>Recent Predictions</h2>
 
-                        <p>
-                            Your previous plant analysis records
-                        </p>
+                        <p>Your previous plant analysis records</p>
                     </div>
 
                     <a href="upload.html" class="primary-button">
@@ -90,14 +72,12 @@
                 </div>
 
 
-                <!-- Table -->
-
+                <!-- HISTORY TABLE -->
                 <div class="history-table-wrapper">
 
                     <table class="history-table">
 
                         <thead>
-
                             <tr>
                                 <th>Date</th>
                                 <th>Plant</th>
@@ -106,123 +86,14 @@
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
-
                         </thead>
 
-
-                        <tbody>
-
-                            <tr>
-
-                                <td>
-                                    30 Sep 2026
-                                </td>
-
-                                <td>
-                                    🍅 Tomato
-                                </td>
-
-                                <td>
-                                    <strong>
-                                        Early Blight
-                                    </strong>
-                                </td>
-
-                                <td>
-                                    <span class="confidence-badge">
-                                        94%
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="status-badge">
-                                        Analyzed
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <a href="result.html"
-                                       class="view-link">
-                                        View
-                                    </a>
-                                </td>
-
-                            </tr>
-
+                        <tbody id="history-list">
 
                             <tr>
-
-                                <td>
-                                    28 Sep 2026
+                                <td colspan="6" style="text-align:center;">
+                                    Loading prediction history...
                                 </td>
-
-                                <td>
-                                    🥔 Potato
-                                </td>
-
-                                <td>
-                                    <strong>
-                                        Late Blight
-                                    </strong>
-                                </td>
-
-                                <td>
-                                    <span class="confidence-badge">
-                                        91%
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="status-badge">
-                                        Analyzed
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <a href="result.html"
-                                       class="view-link">
-                                        View
-                                    </a>
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-                                    25 Sep 2026
-                                </td>
-
-                                <td>
-                                    🌶️ Pepper
-                                </td>
-
-                                <td>
-                                    <strong>
-                                        Healthy
-                                    </strong>
-                                </td>
-
-                                <td>
-                                    <span class="confidence-badge">
-                                        97%
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="status-badge healthy">
-                                        Healthy
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <a href="result.html"
-                                       class="view-link">
-                                        View
-                                    </a>
-                                </td>
-
                             </tr>
 
                         </tbody>
@@ -234,22 +105,20 @@
             </div>
 
 
-            <!-- Information -->
-
+            <!-- INFORMATION -->
             <div class="history-note">
 
                 <span>💡</span>
 
                 <p>
-                    Your prediction history will be stored securely
-                    after the database is connected.
+                    Your plant disease predictions are stored
+                    in the database and displayed here automatically.
                 </p>
 
             </div>
 
 
-            <!-- Actions -->
-
+            <!-- ACTIONS -->
             <div class="history-action">
 
                 <a href="upload.html" class="primary-button">
@@ -267,15 +136,10 @@
     </main>
 
 
-    <!-- ============================= -->
     <!-- FOOTER -->
-    <!-- ============================= -->
-
     <footer class="footer">
 
-        <div class="footer-logo">
-            🌿 PlantCare AI
-        </div>
+        <div class="footer-logo">🌿 PlantCare AI</div>
 
         <p>
             AI-Based Plant Disease Detection for Farmers
@@ -290,6 +154,228 @@
 
 
     <script src="../js/app.js"></script>
+
+
+    <!-- DYNAMIC HISTORY SCRIPT -->
+    <script>
+
+        const HISTORY_API = "http://127.0.0.1:8000/api/history/";
+
+        const historyList = document.getElementById("history-list");
+
+        let historyRecords = [];
+
+
+        // Format prediction name dynamically
+        function formatPrediction(prediction) {
+
+            return prediction
+                .replace(/^[^_]+_+/, "")
+                .replaceAll("_", " ")
+                .trim()
+                .replace(/\b\w/g, letter => letter.toUpperCase());
+        }
+
+
+        // Format date
+        function formatDate(dateValue) {
+
+            const date = new Date(dateValue);
+
+            return date.toLocaleString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+        }
+
+
+        // Load prediction history from backend
+        async function loadHistory() {
+
+            try {
+
+                const response = await fetch(HISTORY_API, {
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Unable to load prediction history.");
+                }
+
+                historyRecords = await response.json();
+
+                historyList.innerHTML = "";
+
+                if (historyRecords.length === 0) {
+
+                    historyList.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align:center;">
+                                No prediction history found.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                historyRecords.forEach((record, index) => {
+
+                    const prediction = formatPrediction(
+                        record.predicted_disease
+                    );
+
+                    const plantName = record.plant_display ||
+                        record.plant.replaceAll("_", " ")
+                            .replace(/\b\w/g, letter => letter.toUpperCase());
+
+                    const isHealthy =
+                        prediction.toLowerCase() === "healthy";
+
+                    const statusText = isHealthy ? "Healthy" : "Analyzed";
+
+                    const statusClass = isHealthy
+                        ? "status-badge healthy"
+                        : "status-badge";
+
+
+                    const row = document.createElement("tr");
+
+
+                    // Create cells safely
+                    const values = [
+                        formatDate(record.prediction_date),
+                        plantName,
+                        prediction,
+                        `${record.confidence}%`,
+                        statusText
+                    ];
+
+                    values.forEach((value, cellIndex) => {
+
+                        const cell = document.createElement("td");
+
+                        if (cellIndex === 2) {
+
+                            const strong = document.createElement("strong");
+                            strong.textContent = value;
+                            cell.appendChild(strong);
+
+                        } else if (cellIndex === 3) {
+
+                            const badge = document.createElement("span");
+                            badge.className = "confidence-badge";
+                            badge.textContent = value;
+                            cell.appendChild(badge);
+
+                        } else if (cellIndex === 4) {
+
+                            const badge = document.createElement("span");
+                            badge.className = statusClass;
+                            badge.textContent = value;
+                            cell.appendChild(badge);
+
+                        } else {
+
+                            cell.textContent = value;
+
+                        }
+
+                        row.appendChild(cell);
+
+                    });
+
+
+                    // View button
+                    const actionCell = document.createElement("td");
+
+                    const viewButton = document.createElement("button");
+
+                    viewButton.type = "button";
+                    viewButton.className = "view-link";
+                    viewButton.textContent = "View";
+                    viewButton.dataset.index = index;
+
+                    actionCell.appendChild(viewButton);
+                    row.appendChild(actionCell);
+
+                    historyList.appendChild(row);
+
+                });
+
+            }
+
+            catch (error) {
+
+                console.error("History API Error:", error);
+
+                historyList.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center;">
+                            Unable to load history.
+                            Please make sure the backend server is running.
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+
+        // Open selected prediction
+        historyList.addEventListener("click", function(event) {
+
+            const button = event.target.closest(".view-link");
+
+            if (!button) {
+                return;
+            }
+
+            const index = Number(button.dataset.index);
+
+            const record = historyRecords[index];
+
+            if (!record) {
+                return;
+            }
+
+
+            localStorage.setItem(
+                "uploadedLeafImage",
+                record.image
+            );
+
+            localStorage.setItem(
+                "predictionName",
+                record.predicted_disease
+            );
+
+            localStorage.setItem(
+                "predictionConfidence",
+                record.confidence
+            );
+
+            localStorage.setItem(
+                "predictionPlant",
+                record.plant
+            );
+
+
+            window.location.href = "result.html";
+
+        });
+
+
+        // Run when page opens
+        loadHistory();
+
+    </script>
 
 </body>
 

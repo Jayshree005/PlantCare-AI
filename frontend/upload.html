@@ -12,28 +12,57 @@
 
 <body>
 
+    <script>
+    console.log("UPLOAD PAGE OPENED SUCCESSFULLY");
+</script>
+
     <!-- Navigation Bar -->
     <header class="navbar">
 
-        <div class="logo">
-            🌿 PlantCare AI
-        </div>
+    <div class="logo">
+        🌿 PlantCare AI
+    </div>
 
-        <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#how-it-works">How It Works</a>
-            <a href="index.html#features">Features</a>
-            <a href="about.html">About</a>
-            <a href="history.html">History</a>
-            <a href="login.html">Login</a>
-            <a href="signup.html">Sign Up</a>
-        </nav>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="index.html#features">Features</a>
+        <a href="about.html">About</a>
+        <a href="history.html">History</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </nav>
 
-        <a href="upload.html" class="nav-button active">
-            Detect Disease
-        </a>
+    <div id="welcome-user" style="
+        color: #ffffff;
+        font-weight: 600;
+        margin: 0 15px;
+    "></div>
 
-    </header>
+    <button
+    type="button"
+    id="logout-button"
+    onclick="logoutUser()"
+    style="
+        background: #c0392b;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        display: inline-block;
+        position: relative;
+        z-index: 9999;
+    ">
+    Logout
+</button>
+
+    <a href="upload.html" class="nav-button active">
+        Detect Disease
+    </a>
+
+</header>
 
 
     <!-- Upload Section -->
@@ -74,6 +103,21 @@
                     Choose a clear photo of the plant leaf
                     from your device.
                 </p>
+
+
+                <!-- Plant Selection -->
+                <div class="plant-selection">
+
+                    <label for="plant-type">
+                        Select Plant
+                    </label>
+
+                    <select id="plant-type" required>
+                        <option value="aloe" selected>Aloe Vera</option>
+                        <option value="tomato">Tomato</option>
+                    </select>
+
+                </div>
 
 
                 <!-- File Input -->

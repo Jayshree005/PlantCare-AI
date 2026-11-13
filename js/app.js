@@ -1,10 +1,50 @@
 
+function getCookie(name) {
+    const cookieValue = `; ${document.cookie}`;
+    const parts = cookieValue.split(`; ${name}=`);
+
+    if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+    }
+
+    return null;
+}
+
 // ======================================
 // PLANTCARE AI - MAIN JAVASCRIPT
 // ======================================
 
 console.log("PlantCare AI JavaScript loaded!");
 
+const API_BASE = "http://127.0.0.1:8000/api";
+
+// ======================================
+// PROTECT PAGES - LOGIN REQUIRED
+// ======================================
+
+const currentPage = window.location.pathname
+    .split("/")
+    .pop()
+    .toLowerCase();
+
+const protectedPages = [
+    "upload.html",
+    "history.html",
+    "result.html"
+];
+
+const loggedInUser = localStorage.getItem("plantcareAuthUser");
+
+
+
+if (protectedPages.includes(currentPage) && !loggedInUser) {
+    console.log("PROTECTED PAGE CHECK:", currentPage, loggedInUser);
+
+    alert("Please login first to access this page.");
+    window.location.replace("login.html");
+} else {
+    console.log("PAGE ACCESS ALLOWED:", currentPage);
+}
 
 // ======================================
 // 1. PLANT IMAGE UPLOAD ELEMENTS
@@ -13,6 +53,7 @@ console.log("PlantCare AI JavaScript loaded!");
 const imageInput = document.getElementById("leaf-image");
 const imagePreview = document.getElementById("image-preview");
 const analyzeButton = document.getElementById("analyze-button");
+const plantType = document.getElementById("plant-type");
 
 
 // ======================================
@@ -86,11 +127,26 @@ if (imageInput && imagePreview && analyzeButton) {
         analyzeButton.disabled = true;
         analyzeButton.textContent = "Analyzing image...";
 
-        const formData = new FormData();
+const formData = new FormData();
 
-        formData.append("image", file);
+// Get selected plant
+const selectedPlant = plantType ? plantType.value : "aloe";
+
+// Send image and plant type to Django backend
+formData.append("image", file);
+formData.append("plant", selectedPlant);
+
+console.log("Selected Plant:", selectedPlant);
 
         try {
+
+            // Get CSRF token from Django
+            await fetch("http://127.0.0.1:8000/api/csrf/", {
+            method: "GET",
+            credentials: "include"
+        });
+
+            const csrfToken = getCookie("csrftoken");
 
             console.log("Sending image to Django API...");
 
@@ -99,7 +155,11 @@ if (imageInput && imagePreview && analyzeButton) {
                 "http://127.0.0.1:8000/api/upload/",
                 {
                     method: "POST",
-                    body: formData
+                    credentials: "include",
+                    headers: {
+                    "X-CSRFToken": csrfToken
+                    },
+                body: formData
                 }
             );
 
@@ -160,6 +220,12 @@ if (imageInput && imagePreview && analyzeButton) {
                 "predictionName",
                 data.prediction
             );
+
+            // Save selected plant for result page
+localStorage.setItem(
+    "predictionPlant",
+    selectedPlant
+);
 
             // Format confidence
             let confidenceText = "--";
@@ -228,7 +294,43 @@ if (imageInput && imagePreview && analyzeButton) {
 
 }
 
+// DISPLAY LOGGED-IN USER NAME
 
+const welcomeUser = document.getElementById("welcome-user");
+
+if (welcomeUser) {
+    const savedUser = localStorage.getItem("plantcareAuthUser");
+
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+
+        const userName = user.name || "User";
+
+        welcomeUser.textContent =
+            "Hi, " +
+            userName.charAt(0).toUpperCase() +
+            userName.slice(1) +
+            "!";
+    }
+}
+
+// NAVBAR LOGIN / LOGOUT TOGGLE
+(function updateNavbarAuth() {
+    const authUser = localStorage.getItem("plantcareAuthUser");
+    const loginLinks = document.querySelectorAll('a[href$="login.html"]');
+    const signupLinks = document.querySelectorAll('a[href$="signup.html"]');
+    const logoutBtn = document.getElementById("logout-button");
+
+    if (authUser) {
+        loginLinks.forEach(link => link.style.display = "none");
+        signupLinks.forEach(link => link.style.display = "none");
+        if (logoutBtn) logoutBtn.style.display = "inline-block";
+    } else {
+        loginLinks.forEach(link => link.style.display = "");
+        signupLinks.forEach(link => link.style.display = "");
+        if (logoutBtn) logoutBtn.style.display = "none";
+    }
+})();
 // ======================================
 // 4. RESULT PAGE - DISPLAY UPLOADED IMAGE
 // ======================================
@@ -313,7 +415,11 @@ function togglePassword(inputId, button) {
 // 7. LOGIN - FRONTEND DEMO
 // ======================================
 
-function loginUser() {
+
+
+async function loginUser() {
+
+    console.log("LOGIN BUTTON CLICKED!");
 
     const email =
         document.getElementById("login-email").value.trim();
@@ -322,16 +428,67 @@ function loginUser() {
         document.getElementById("login-password").value;
 
     if (!email || !password) {
-
         alert("Please enter email and password.");
         return;
-
     }
 
-    // Backend authentication will be connected later.
-    window.location.href = "upload.html";
+    try {
 
+        // Get CSRF token from Django
+        await fetch(`${API_BASE}/csrf/`, {
+            method: "GET",
+            credentials: "include"
+        });
+
+        const csrfToken = getCookie("csrftoken");
+
+        if (!csrfToken) {
+            throw new Error("CSRF token not received from Django.");
+        }
+
+        // Login request
+        const response = await fetch(`${API_BASE}/login/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken
+            },
+            credentials: "include",
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                data.detail ||
+                data.message ||
+                "Login failed."
+            );
+        }
+
+        localStorage.setItem(
+            "plantcareAuthUser",
+            JSON.stringify(data.user || {})
+        );
+
+        console.log("Saved user:", localStorage.getItem("plantcareAuthUser"));
+
+        console.log("Redirecting to upload page...");
+
+
+       window.location.href = "./upload.html";
+
+    } catch (error) {
+
+        console.error("Login error:", error);
+        alert(error.message || "Unable to login right now.");
+
+    }
 }
+
+
 
 
 // ======================================
@@ -431,7 +588,7 @@ if (confirmPasswordInput) {
 // 9. SIGNUP - FRONTEND DEMO
 // ======================================
 
-function signupUser() {
+async function signupUser() {
 
     const name =
         document.getElementById("signup-name").value.trim();
@@ -453,68 +610,125 @@ function signupUser() {
 
 
     if (!name || !email || !password || !confirmPassword) {
-
         alert("Please fill all required fields.");
         return;
-
     }
 
 
-    // Password validation
     const passwordPattern =
-        /^(?=.*[A-Z])(?=.*[!@#$%&]).{8,}$/;
-
+        /^(?=.*[^A-Za-z0-9\s]).{8,}$/;
 
     if (!passwordPattern.test(password)) {
-
         alert(
-            "Password must contain at least 8 characters, " +
-            "1 uppercase letter and 1 special character."
+            "Password must contain at least 8 characters " +
+            "and 1 special character."
         );
-
         return;
-
     }
 
-
-    // Confirm password validation
     if (password !== confirmPassword) {
-
         checkPasswordMatch();
-
         alert("Passwords do not match.");
-
         return;
-
     }
 
-
-    // User type validation
     if (!userType) {
-
         alert("Please select your user type.");
-
         return;
-
     }
 
-
-    // Terms validation
     if (!terms) {
-
         alert("Please agree to the Terms & Conditions.");
-
         return;
-
     }
 
+    try {
+        const csrfResponse = await fetch(`${API_BASE}/csrf/`, {
+            method: "GET",
+            credentials: "include"
+        });
 
-    // Backend signup will be connected later.
-    alert(
-        "Frontend validation successful. " +
-        "Signup backend is not connected yet."
-    );
+        if (!csrfResponse.ok) {
+            throw new Error("Unable to retrieve a CSRF token from Django.");
+        }
 
-    window.location.href = "login.html";
+        const csrfToken = getCookie("csrftoken");
 
+        if (!csrfToken) {
+            throw new Error("CSRF token not received from Django.");
+        }
+
+        const response = await fetch(`${API_BASE}/signup/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken
+            },
+            credentials: "include",
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Signup failed.");
+        }
+
+        alert("Account created successfully. Please login.");
+        window.location.href = "login.html";
+
+    } catch (error) {
+        console.error("Signup error:", error);
+        alert(error.message || "Unable to create the account right now.");
+    }
+
+}
+// LOGOUT FUNCTION
+async function logoutUser() {
+    try {
+        const csrfResponse = await fetch(`${API_BASE}/csrf/`, {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if (!csrfResponse.ok) {
+            throw new Error("Unable to retrieve a CSRF token from Django.");
+        }
+
+        const csrfToken = getCookie("csrftoken");
+
+        if (!csrfToken) {
+            throw new Error("CSRF token not received from Django.");
+        }
+
+        const response = await fetch(`${API_BASE}/logout/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken
+            },
+            credentials: "include"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                data.detail ||
+                data.message ||
+                "Logout failed."
+            );
+        }
+
+        localStorage.removeItem("plantcareAuthUser");
+        localStorage.removeItem("uploadedLeafImage");
+        localStorage.removeItem("predictionName");
+        localStorage.removeItem("predictionConfidence");
+
+        alert(data.message || "You have been logged out successfully.");
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error("Logout error:", error);
+        alert(error.message || "Unable to log out right now.");
+    }
 }

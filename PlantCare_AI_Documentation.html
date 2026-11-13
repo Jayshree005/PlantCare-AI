@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantCare AI - Complete Architectural Blueprint & Project Guide</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .header {
+            border-bottom: 3px solid #10b981;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #065f46;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 15px;
+            color: #64748b;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .badge-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #a7f3d0;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 36px;
+            margin-bottom: 16px;
+        }
+
+        h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-top: 22px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            font-size: 14px;
+            color: #334155;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0 24px 0;
+            font-size: 13.5px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            text-align: left;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+        }
+
+        td {
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafafa;
+        }
+
+        .code-box {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .callout {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 18px 0;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: #065f46;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step-num {
+            background: #10b981;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .step-body h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .step-body p {
+            margin: 0;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .qa-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+        }
+
+        .qa-q {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .qa-a {
+            color: #334155;
+            font-size: 13.5px;
+            margin: 0;
+            line-height: 1.55;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🌿 PlantCare AI — Architecture Blueprint</h1>
+        <p class="subtitle">Complete Technical Reference, File Directory Guide & System Explanation</p>
+        <div class="badge-bar">
+            <span class="badge">Django REST Framework</span>
+            <span class="badge">MobileNetV2 Deep Learning</span>
+            <span class="badge">Two-Stage Gatekeeper</span>
+            <span class="badge">Live Meteorological Engine</span>
+            <span class="badge">Agricultural Season Detection</span>
+        </div>
+    </div>
+
+    <h2>1. Executive Summary & Problem Solved</h2>
+    <p>
+        <strong>PlantCare AI</strong> is a full-stack automated agricultural diagnosis platform. It enables farmers, researchers, and home gardeners to diagnose plant pathological conditions instantly from leaf photographs, receive immediate organic and chemical care regimens, and observe real-time weather-induced disease spread risks.
+    </p>
+
+    <div class="callout">
+        <div class="callout-title">💡 The Core Technical Innovation: Two-Stage Gatekeeper AI</div>
+        Standard plant disease classification models fail catastrophically in real-world use because when a user submits a photo of a shoe, dog, or random houseplant, single-stage models force a false classification (e.g. 99% confident Aloe Rust). PlantCare AI solves this by deploying a <strong>Stage-1 Gatekeeper Validator Model</strong> that verifies leaf authenticity before invoking the <strong>Stage-2 MobileNetV2 Disease Classifier</strong>.
+    </div>
+
+    <h2>2. Supported Crops and Disease Conditions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Plant Type</th>
+                <th>Conditions Detected</th>
+                <th>Model Architecture</th>
+                <th>Model File</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Aloe Vera</strong><br><em>(5 Classes)</em></td>
+                <td>
+                    • Aloe Anthracnose (Fungal)<br>
+                    • Aloe Healthy (Clean foliage)<br>
+                    • Aloe Leafspot (Fungal/Bacterial)<br>
+                    • Aloe Rust (Raised fungal pustules)<br>
+                    • Aloe Sunburn (UV/thermal necrosis)
+                </td>
+                <td>MobileNetV2 Transfer Learning<br><em>(Depthwise Separable Convolutions)</em></td>
+                <td><code>aloe_mobilenetv2_extracted_v1.keras</code><br><em>(Size: 9.7 MB)</em></td>
+            </tr>
+            <tr>
+                <td><strong>Tomato</strong><br><em>(10 Classes)</em></td>
+                <td>
+                    • Bacterial Spot<br>
+                    • Early Blight & Late Blight<br>
+                    • Leaf Mold & Septoria Leaf Spot<br>
+                    • Spider Mites (Pest symptom)<br>
+                    • Target Spot<br>
+                    • Mosaic Virus & Yellow Leaf Curl Virus<br>
+                    • Tomato Healthy
+                </td>
+                <td>MobileNetV2 Transfer Learning<br><em>(Fine-tuned on PlantVillage)</em></td>
+                <td><code>tomato_mobilenetv2.keras</code><br><em>(Size: 9.8 MB)</em></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>3. End-to-End System Pipeline</h2>
+    <div class="workflow-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+            <h4>User Intake (upload.html)</h4>
+            <p>The user selects a plant (Aloe Vera or Tomato) and drags-and-drops or uploads a leaf picture. Client-side validation checks image mime-type.</p>
+        </div>
+    </div>
+
+    <div class="workflow-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+            <h4>API Request & Preprocessing (backend/detection/views.py)</h4>
+            <p>The image is streamed to <code>POST /api/upload/</code>. Pillow normalizes the color channels to RGB and resizes the tensor to (224, 224, 3).</p>
+        </div>
+    </div>
+
+    <div class="workflow-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+            <h4>Stage-1 Gatekeeper Validation</h4>
+            <p><code>plant_validator_v3.keras</code> (for Aloe) or <code>tomato_validator.keras</code> (for Tomato) verifies that the image is actually a leaf. If invalid, HTTP 400 is returned immediately.</p>
+        </div>
+    </div>
+
+    <div class="workflow-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+            <h4>Stage-2 MobileNetV2 Disease Classification</h4>
+            <p>Valid leaf tensors are fed through the MobileNetV2 classifier. Softmax outputs are ranked to find the top predicted condition and confidence percentage.</p>
+        </div>
+    </div>
+
+    <div class="workflow-step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+            <h4>Persistence & Care Plan Assembly</h4>
+            <p>Django ORM stores the diagnosis in SQLite (<code>PredictionHistory</code>). Organic treatments, chemical remedies, and prevention tips are assembled into a JSON payload.</p>
+        </div>
+    </div>
+
+    <div class="workflow-step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+            <h4>Live Meteorological Engine & Season Detection</h4>
+            <p>On <code>result.html</code>, the user can enter their city. The backend geocodes coordinates via Open-Meteo, computes the current agricultural season (e.g. <em>Sharad / Autumn</em>), generates a 3-day forecast, and calculates rule-based disease risk scores.</p>
+        </div>
+    </div>
+
+    <h2>4. Complete File-by-File Catalog</h2>
+
+    <h3>Frontend Tier (User Interface)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 32%;">File Path</th>
+                <th>Role & Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>frontend/index.html</code></td>
+                <td><strong>Homepage:</strong> Hero section, feature cards, crop selection, and educational navigation.</td>
+            </tr>
+            <tr>
+                <td><code>frontend/upload.html</code></td>
+                <td><strong>Diagnostic Uploader:</strong> Interactive file dropzone, crop selection toggle, and client-side validation.</td>
+            </tr>
+            <tr>
+                <td><code>frontend/result.html</code></td>
+                <td><strong>Result Dashboard:</strong> Shows diagnosis, confidence bar, symptoms, treatments, live weather grid, season badge, and 3-day forecast.</td>
+            </tr>
+            <tr>
+                <td><code>frontend/history.html</code></td>
+                <td><strong>Prediction History:</strong> Renders past diagnostic records with image thumbnails, timestamps, and confidence percentages.</td>
+            </tr>
+            <tr>
+                <td><code>frontend/login.html</code> & <code>signup.html</code></td>
+                <td><strong>Authentication UI:</strong> Clean session-based login and registration pages.</td>
+            </tr>
+            <tr>
+                <td><code>css/style.css</code></td>
+                <td><strong>Global Stylesheet:</strong> Modern eco-green visual identity, typography, buttons, glassmorphic cards, and media queries.</td>
+            </tr>
+            <tr>
+                <td><code>js/app.js</code></td>
+                <td><strong>Client Controller:</strong> Manages login/logout state in navbar and session cookie verification via <code>/api/me/</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h3>Backend Tier (Django REST Framework Engine)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 35%;">File Path</th>
+                <th>Role & Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>backend/manage.py</code></td>
+                <td>Standard Django command-line execution entry point.</td>
+            </tr>
+            <tr>
+                <td><code>backend/config/settings.py</code></td>
+                <td>Configures CORS origins, DRF authentication, SQLite database settings, and static/media routing.</td>
+            </tr>
+            <tr>
+                <td><code>backend/config/urls.py</code></td>
+                <td>Top-level router delegating <code>/api/</code> endpoints and media file URLs.</td>
+            </tr>
+            <tr>
+                <td><code>backend/detection/models.py</code></td>
+                <td>Database schema for <code>PredictionHistory</code> (user, plant, disease, confidence, image, date).</td>
+            </tr>
+            <tr>
+                <td><code>backend/detection/serializers.py</code></td>
+                <td>Serializes model records into JSON format for history list views.</td>
+            </tr>
+            <tr>
+                <td><code>backend/detection/urls.py</code></td>
+                <td>Maps REST routes: <code>upload/</code>, <code>weather/</code>, <code>history/</code>, <code>login/</code>, <code>signup/</code>, <code>logout/</code>, <code>me/</code>.</td>
+            </tr>
+            <tr>
+                <td><code>backend/detection/views.py</code></td>
+                <td><strong>Core Brain:</strong> Houses model loading, image inference, season detection, Open-Meteo integration, and weather risk matrices.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Active Machine Learning Models</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40%;">Model File</th>
+                <th>Size</th>
+                <th>Architecture & Purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>aloe_mobilenetv2_extracted_v1.keras</code></td>
+                <td><strong>9.7 MB</strong></td>
+                <td>Aloe Vera disease classifier (5 classes). MobileNetV2 backbone with fast CPU inference.</td>
+            </tr>
+            <tr>
+                <td><code>plant_validator_v3.keras</code></td>
+                <td><strong>1.4 MB</strong></td>
+                <td>Aloe Vera Stage-1 binary gatekeeper. Filters out non-leaf uploads with 100% test accuracy.</td>
+            </tr>
+            <tr>
+                <td><code>tomato_mobilenetv2.keras</code></td>
+                <td><strong>9.8 MB</strong></td>
+                <td>Tomato plant disease classifier (10 classes). Fine-tuned on PlantVillage images.</td>
+            </tr>
+            <tr>
+                <td><code>tomato_validator.keras</code></td>
+                <td><strong>1.4 MB</strong></td>
+                <td>Tomato Stage-1 binary gatekeeper for validating tomato leaf images.</td>
+            </tr>
+            <tr>
+                <td><code>tomato_class_names.json</code></td>
+                <td><strong>&lt; 1 KB</strong></td>
+                <td>JSON dictionary mapping numerical class indices to canonical tomato disease names.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>5. Presentation & Interview Cheat Sheet</h2>
+
+    <div class="qa-card">
+        <div class="qa-q">Q1: How would you summarize this project in 30 seconds?</div>
+        <p class="qa-a">
+            <em>"PlantCare AI is an intelligent agricultural health diagnostic platform. It uses a Two-Stage Gatekeeper Computer Vision pipeline with MobileNetV2 to first verify that an uploaded image is a real leaf, and then diagnoses specific diseases across Aloe Vera and Tomato plants. It combines this with live weather forecasting and seasonal intelligence to give farmers early warnings of fungal and bacterial disease outbreaks."</em>
+        </p>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">Q2: Why did you use MobileNetV2 instead of standard CNNs or ResNet?</div>
+        <p class="qa-a">
+            MobileNetV2 employs depthwise separable convolutions that separate spatial filtering from feature combination. This reduced model size from 134 MB down to 9.7 MB (a 93% reduction) and cut CPU latency to ~35ms, allowing real-time edge or CPU cloud deployment without expensive GPUs.
+        </p>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">Q3: How does the Two-Stage Gatekeeper architecture work?</div>
+        <p class="qa-a">
+            Standard classifiers suffer from the "out-of-distribution" problem: uploading a picture of a car still outputs a plant disease with high confidence. We solve this by inserting a dedicated binary validator model that must confirm the image contains genuine leaf features before the disease classifier is ever invoked.
+        </p>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">Q4: How does the system determine the agricultural season?</div>
+        <p class="qa-a">
+            In <code>views.py</code>, <code>determine_season()</code> takes the user's city coordinates and country. For Indian/South Asian regions, it maps the current calendar to traditional agro-climatic seasons (<em>Sharad, Varsha, Grishma, Shishir</em>) and injects contextual plant care tips into the dashboard.
+        </p>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">Q5: Is database storage persistent?</div>
+        <p class="qa-a">
+            Yes. Prediction records and user accounts are persisted in SQLite (<code>backend/db.sqlite3</code>) through Django's ORM, complete with timestamps, foreign key associations, and hashed credentials.
+        </p>
+    </div>
+
+    <h2>6. How to Export this Document as a PDF</h2>
+    <p>
+        A compiled PDF version (<strong><code>PlantCare_AI_Complete_Guide.pdf</code></strong>) is already created directly in your project root!
+    </p>
+    <p>
+        If you ever want to re-export or customize it:
+    </p>
+    <ul>
+        <li>Open <code>PlantCare_AI_Documentation.html</code> in Google Chrome or Microsoft Edge.</li>
+        <li>Press <kbd>Ctrl</kbd> + <kbd>P</kbd> (Print).</li>
+        <li>Set the destination to <strong>"Save as PDF"</strong>.</li>
+        <li>Under More Settings, check <strong>"Background graphics"</strong> and set Margins to <strong>"Default"</strong> or <strong>"Minimum"</strong>.</li>
+        <li>Click <strong>Save</strong>!</li>
+    </ul>
+
+</div>
+
+</body>
+</html>

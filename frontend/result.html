@@ -92,66 +92,349 @@
     min-width: 0;
 }
 
-#weather-location {
-    margin: 20px 0;
-}
-
-#weather-dashboard h3 {
-    margin-top: 22px;
-}
-
-/* WEATHER DETAILS */
-
-.weather-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
+#weather-data {
+    display: none;
     width: 100%;
-    margin: 20px 0;
+    min-width: 0;
+    margin-top: 15px;
 }
 
-.weather-item {
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.09);
+/* LOCATION & SEASON BANNER */
+.weather-location-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 18px 22px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(139, 201, 141, 0.25);
+    border-radius: 14px;
+    margin: 18px 0 16px;
+}
+
+.weather-location-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.live-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    display: inline-block;
+    flex-shrink: 0;
+    animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+#weather-location {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: #f1f5f9;
+}
+
+.season-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 30px;
+}
+
+.season-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.season-text-group {
     display: flex;
     flex-direction: column;
+}
+
+.season-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+#season-name {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* SEASON SPOTLIGHT ADVISORY */
+.season-spotlight {
+    padding: 16px 20px;
+    border-radius: 12px;
+    background: rgba(245, 158, 11, 0.08);
+    border-left: 4px solid #f59e0b;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.season-spotlight-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+#season-spotlight-text {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #e2e8f0;
+}
+
+/* SECTION TITLES */
+.weather-section-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 26px 0 14px;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+}
+
+/* CURRENT CONDITIONS GRID */
+.current-weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.current-stat-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 18px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.current-stat-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.stat-card-top {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    overflow-wrap: anywhere;
 }
 
-.weather-item strong {
-    font-size: 21px;
+.stat-icon-wrapper {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
 }
 
-#weather-recommendations li {
-    margin-bottom: 10px;
+.stat-icon-wrapper.temp { background: rgba(239, 68, 68, 0.18); }
+.stat-icon-wrapper.feels { background: rgba(249, 115, 22, 0.18); }
+.stat-icon-wrapper.humidity { background: rgba(59, 130, 246, 0.18); }
+.stat-icon-wrapper.rain { background: rgba(14, 165, 233, 0.18); }
+.stat-icon-wrapper.wind { background: rgba(168, 85, 247, 0.18); }
+.stat-icon-wrapper.uv { background: rgba(234, 179, 8, 0.18); }
+
+.stat-name {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.stat-val {
+    font-size: 23px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 4px;
+}
+
+.stat-sub {
+    font-size: 11.5px;
+    color: #cbd5e1;
+    opacity: 0.85;
+}
+
+/* 3-DAY FORECAST GRID */
+.forecast-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    width: 100%;
+}
+
+.forecast-day-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.forecast-day-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(139, 201, 141, 0.4);
+}
+
+.forecast-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.forecast-day-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.forecast-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(139, 201, 141, 0.18);
+    color: #8bc98d;
+    font-weight: 600;
+}
+
+.forecast-temp-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.temp-high {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f87171;
+}
+
+.temp-sep {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.temp-low {
+    font-size: 17px;
+    font-weight: 700;
+    color: #93c5fd;
+}
+
+.forecast-chips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.f-chip {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.f-chip-label {
+    font-size: 10.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.f-chip-val {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 /* WEATHER DISEASE RISK */
-
 .weather-risk-section {
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    margin-top: 28px;
+    margin-top: 30px;
     padding: 24px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.weather-risk-section h3 {
-    margin-top: 0 !important;
+.risk-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.risk-section-header h3 {
+    margin: 0 !important;
+    font-size: 18px;
+    color: #f1f5f9;
+}
+
+.risk-section-sub {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.condition-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(139, 201, 141, 0.16);
+    color: #a5dba7;
+    font-size: 12.5px;
+    font-weight: 700;
+    border: 1px solid rgba(139, 201, 141, 0.3);
 }
 
 #weather-risk-results {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 20px;
     width: 100%;
-    margin-top: 20px;
     align-items: stretch;
 }
 
@@ -159,117 +442,235 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    padding: 22px;
+    padding: 20px;
     margin: 0;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    overflow-wrap: anywhere;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s ease;
 }
 
-.risk-card h4 {
-    margin: 0 0 14px;
-    font-size: 17px;
+.risk-card:hover {
+    transform: translateY(-2px);
 }
 
-.risk-card p {
-    line-height: 1.6;
-    margin: 12px 0;
+.risk-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    padding-bottom: 10px;
 }
 
-.risk-card ul {
-    padding-left: 20px;
-    margin: 10px 0 18px;
-}
-
-.risk-card li {
-    margin-bottom: 9px;
-    line-height: 1.5;
+.risk-day-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0;
 }
 
 .risk-level {
-    display: inline-block;
-    padding: 7px 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-weight: bold;
-    margin: 8px 0 12px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
 }
 
 .risk-low {
-    background: #d1fae5;
-    color: #065f46;
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .risk-moderate {
-    background: #fef3c7;
-    color: #92400e;
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .risk-high {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(239, 68, 68, 0.22);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.45);
+}
+
+/* METRICS CHIPS BAR */
+.risk-metrics-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.risk-metric-pill {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 11.5px;
+    color: #e2e8f0;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.risk-content-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.risk-content-box.advice {
+    background: rgba(16, 185, 129, 0.09);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.risk-box-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.risk-content-box.advice .risk-box-title {
+    color: #a7f3d0;
+}
+
+.risk-reasons-list,
+.risk-advice-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.risk-reasons-list li,
+.risk-advice-list li {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+    color: #e2e8f0;
+}
+
+.risk-reasons-list li:last-child,
+.risk-advice-list li:last-child {
+    margin-bottom: 0;
 }
 
 .risk-note {
-    font-size: 13px;
+    font-size: 12.5px;
     opacity: 0.85;
     line-height: 1.6;
     margin-top: 20px;
+    color: #cbd5e1;
 }
 
-/* TABLET */
+/* PLANT WEATHER CARE BLOCK */
+.weather-care-block {
+    margin-top: 24px;
+    padding: 22px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.07);
+    border-left: 4px solid #8bc98d;
+}
 
+.weather-care-block h3 {
+    margin-top: 0 !important;
+    font-size: 17px;
+    color: #a5dba7;
+}
+
+#weather-recommendations {
+    padding-left: 20px;
+    margin: 12px 0 0;
+}
+
+#weather-recommendations li {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: #f1f5f9;
+}
+
+/* TABLET RESPONSIVE */
 @media (max-width: 900px) {
-
     .weather-card {
         padding: 22px;
     }
-
-    #weather-risk-results {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    .current-weather-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    #weather-risk-results,
+    .forecast-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 }
 
-/* MOBILE */
-
+/* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
-
     .weather-card {
         padding: 18px;
         margin: 25px 0;
     }
-
-    .weather-details,
+    .weather-location-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 16px;
+    }
+    .season-badge-pill {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: flex-start;
+    }
+    .current-weather-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .current-stat-card {
+        padding: 14px;
+    }
+    .stat-val {
+        font-size: 20px;
+    }
+    .forecast-cards-grid,
     #weather-risk-results {
         grid-template-columns: 1fr;
     }
-
+    .risk-metrics-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
     .weather-search {
         flex-direction: column;
     }
-
     .weather-search button {
         width: 100%;
     }
-
     .weather-header {
         align-items: flex-start;
     }
-
     .weather-icon {
         font-size: 32px;
     }
-
-    .weather-item {
-        padding: 15px;
-    }
-
     .weather-risk-section {
-        padding: 15px;
+        padding: 16px;
     }
-
     .risk-card {
-        padding: 18px;
+        padding: 16px;
     }
 }
 
@@ -303,7 +704,9 @@
     <div class="section-heading">
         <span class="tagline">AI PLANT HEALTH ANALYSIS</span>
         <h1>Plant Analysis Result</h1>
-        <p>Here is the result of your Aloe Vera plant leaf analysis.</p>
+        <p id="plant-description">
+    Here is the result of your plant leaf analysis.
+</p>
     </div>
 
     <div class="result-card">
@@ -315,7 +718,7 @@
                 <img
                     id="result-leaf-image"
                     src=""
-                    alt="Uploaded Aloe Vera Leaf"
+                    alt="Uploaded Plant Leaf"
                 >
             </div>
         </div>
@@ -364,8 +767,8 @@
                 </ul>
             </div>
 
-            <div class="result-block">
-                <h3>🐛 Additional Pest Check</h3>
+            <div class="result-block" id="aloe-pest-check">
+    <h3>🐛 Additional Pest Check</h3>
                 <ul>
                     <li>
                         Check leaf joints and the underside of leaves for
@@ -408,7 +811,7 @@
                 <span class="result-label">LIVE WEATHER ANALYSIS</span>
                 <h2>PlantCare Weather Dashboard</h2>
                 <p>
-                    Check your city's weather and get Aloe Vera care recommendations.
+                    Check your city's weather and get plant-specific care recommendations.
                 </p>
             </div>
 
@@ -435,76 +838,123 @@
 
         <div id="weather-data">
 
-            <h3 id="weather-location"></h3>
+            <!-- LOCATION & CURRENT SEASON BANNER -->
+            <div class="weather-location-bar">
+                <div class="weather-location-info">
+                    <span class="live-dot" title="Live Weather Active"></span>
+                    <h3 id="weather-location">--</h3>
+                </div>
+                <div class="season-badge-pill" id="weather-season-pill">
+                    <span id="season-icon" class="season-icon">🍂</span>
+                    <div class="season-text-group">
+                        <span class="season-label">CURRENT SEASON</span>
+                        <strong id="season-name">--</strong>
+                    </div>
+                </div>
+            </div>
 
-            <div class="weather-details">
+            <!-- SEASON SPOTLIGHT ADVISORY -->
+            <div class="season-spotlight" id="season-spotlight">
+                <div class="season-spotlight-header">
+                    <span id="season-spotlight-icon">🍂</span>
+                    <strong id="season-spotlight-title">Seasonal Growth Context</strong>
+                </div>
+                <p id="season-spotlight-text">
+                    Seasonal information will appear here.
+                </p>
+            </div>
 
-                <div class="weather-item">
-                    <span>🌡️ Temperature</span>
-                    <strong id="weather-temperature">--</strong>
+            <!-- CURRENT CONDITIONS STATS GRID -->
+            <h4 class="weather-section-title">📊 Current Conditions</h4>
+            <div class="current-weather-grid">
+
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper temp">🌡️</span>
+                        <span class="stat-name">Temperature</span>
+                    </div>
+                    <div class="stat-val" id="weather-temperature">--</div>
+                    <div class="stat-sub">Ambient Temperature</div>
                 </div>
 
-                <div class="weather-item">
-                    <span>💧 Humidity</span>
-                    <strong id="weather-humidity">--</strong>
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper feels">🌡️</span>
+                        <span class="stat-name">Feels Like</span>
+                    </div>
+                    <div class="stat-val" id="weather-feels">--</div>
+                    <div class="stat-sub">Apparent Temperature</div>
                 </div>
 
-                <div class="weather-item">
-                    <span>🌧️ Rain Probability</span>
-                    <strong id="weather-rain">--</strong>
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper humidity">💧</span>
+                        <span class="stat-name">Humidity</span>
+                    </div>
+                    <div class="stat-val" id="weather-humidity">--</div>
+                    <div class="stat-sub">Relative Moisture</div>
                 </div>
 
-                <div class="weather-item">
-                    <span>☀️ UV Index</span>
-                    <strong id="weather-uv">--</strong>
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper rain">🌧️</span>
+                        <span class="stat-name">Rain Chance</span>
+                    </div>
+                    <div class="stat-val" id="weather-rain">--</div>
+                    <div class="stat-sub">Precipitation Probability</div>
                 </div>
 
-                <div class="weather-item">
-                    <span>💨 Wind Speed</span>
-                    <strong id="weather-wind">--</strong>
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper wind">💨</span>
+                        <span class="stat-name">Wind Speed</span>
+                    </div>
+                    <div class="stat-val" id="weather-wind">--</div>
+                    <div class="stat-sub">Surface Wind</div>
                 </div>
 
-                <div class="weather-item">
-                    <span>🌡️ Feels Like</span>
-                    <strong id="weather-feels">--</strong>
+                <div class="current-stat-card">
+                    <div class="stat-card-top">
+                        <span class="stat-icon-wrapper uv">☀️</span>
+                        <span class="stat-name">UV Index</span>
+                    </div>
+                    <div class="stat-val" id="weather-uv">--</div>
+                    <div class="stat-sub">Solar Radiation</div>
                 </div>
 
             </div>
 
-            <h3>📅 3-Day Weather Forecast</h3>
-
-            <div id="weather-forecast" class="weather-details"></div>
+            <!-- 3-DAY WEATHER FORECAST -->
+            <h4 class="weather-section-title">📅 3-Day Weather Forecast</h4>
+            <div id="weather-forecast" class="forecast-cards-grid"></div>
 
             <!-- WEATHER BASED DISEASE RISK -->
-
             <div class="weather-risk-section">
 
-                <h3>🌿 Weather-Based Disease Risk Prediction</h3>
-
-                <p id="risk-disease-name">
-                    Analysing selected Aloe Vera condition...
-                </p>
-
-                <p>
-                    Weather conditions are analysed according to the
-                    Aloe Vera disease predicted by the CNN model.
-                </p>
+                <div class="risk-section-header">
+                    <div>
+                        <h3>🌿 Weather-Based Disease Risk Prediction</h3>
+                        <p class="risk-section-sub">
+                            Evaluated using live weather parameters &amp; AI disease diagnosis.
+                        </p>
+                    </div>
+                    <span class="condition-badge" id="risk-disease-name">
+                        Analyzing selected plant condition...
+                    </span>
+                </div>
 
                 <div id="weather-risk-results">
                     <p>Weather risk information will appear here.</p>
                 </div>
 
                 <p class="risk-note">
-                    Note: This is a rule-based weather risk estimate.
-                    It does not confirm disease or predict the exact
-                    time when a disease will spread. Always inspect
-                    the actual plant symptoms.
+                    🛡️ <strong>Advisory Note:</strong> This is a predictive agronomic risk model based on atmospheric moisture, temperature, and UV exposure. Always inspect actual physical plant leaves.
                 </p>
 
             </div>
 
-            <div class="result-block">
-                <h3>🌱 Aloe Vera Weather Care Recommendations</h3>
+            <div class="weather-care-block">
+                <h3 id="weather-care-heading">🌱 Plant Weather Care Recommendations</h3>
                 <ul id="weather-recommendations"></ul>
             </div>
 
@@ -539,6 +989,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageData = localStorage.getItem("uploadedLeafImage");
     const prediction = (localStorage.getItem("predictionName") || "").trim();
     const confidence = localStorage.getItem("predictionConfidence");
+
+    const savedPlant = localStorage.getItem("predictionPlant");
+
+const selectedPlant =
+    savedPlant === "tomato" ? "tomato" : "aloe";
+
+const plantName =
+    selectedPlant === "tomato" ? "Tomato" : "Aloe Vera";
+
+const plantDescription =
+    document.getElementById("plant-description");
+
+const weatherDashboard =
+    document.getElementById("weather-dashboard");
+
+    const aloePestCheck =
+    document.getElementById("aloe-pest-check");
+
+// Dynamic plant description
+if (plantDescription) {
+    plantDescription.textContent =
+        `Here is the result of your ${plantName} plant leaf analysis.`;
+}
+
+
+if (selectedPlant === "tomato") {
+    if (aloePestCheck) {
+        aloePestCheck.style.display = "none";
+    }
+}
 
     const imageElement = document.getElementById("result-leaf-image");
     const predictionElement = document.getElementById("prediction-name");
@@ -710,7 +1190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Confirm that symptoms match the suspected condition before using a disease-specific treatment."
         },
 
-        "Aloe_Sunburn": {
+                "Aloe_Sunburn": {
 
             symptoms: [
                 "Leaves may develop reddish, brown or bleached patches.",
@@ -719,32 +1199,385 @@ document.addEventListener("DOMContentLoaded", function () {
             ],
 
             causes:
-                "Sunburn-like damage can occur when a plant receives more direct sunlight than it can tolerate, especially after a sudden change in light exposure.",
+                "Sunburn-like damage can occur when a plant receives more direct sunlight than it can tolerate.",
 
             care: [
                 "Move the plant to bright, indirect light temporarily.",
-                "Introduce direct sunlight gradually if appropriate.",
+                "Introduce direct sunlight gradually.",
                 "Avoid sudden environmental changes.",
-                "Water according to soil dryness and ensure drainage.",
                 "Monitor new growth."
             ],
 
             treatment: [
                 "Move the plant to bright, indirect light temporarily.",
                 "Gradually reintroduce direct sunlight if suitable.",
-                "Avoid removing leaves unless severely damaged.",
-                "Do not use pesticides for sunburn-like damage unless another problem is confirmed."
+                "Do not use pesticides for sunburn-like damage."
             ],
 
             pesticideGuidance: [
                 "Pesticides and fungicides do not treat sunburn.",
-                "Do not apply chemical products for sunburn-like damage.",
                 "Correct the light exposure and monitor new growth."
             ],
 
             note:
                 "Damaged leaf tissue may not return to its original appearance. Monitor new growth."
-        }
+
+        }, // IMPORTANT: comma added here
+
+        // =====================================
+        // TOMATO DISEASE INFORMATION
+        // =====================================
+
+        "Tomato_Bacterial_spot": {
+
+            symptoms: [
+                "Small dark, water-soaked spots may appear on leaves.",
+                "Spots may develop yellow halos.",
+                "Severely affected leaves may turn yellow and fall."
+            ],
+
+            causes:
+                "Bacterial spot is associated with bacterial pathogens. Moisture, contaminated tools and infected plant material may contribute to its spread.",
+
+            care: [
+                "Avoid overhead watering.",
+                "Keep foliage dry and provide good airflow.",
+                "Remove severely affected plant material carefully.",
+                "Avoid working with wet plants."
+            ],
+
+            treatment: [
+                "Remove severely affected leaves when appropriate.",
+                "Keep the foliage dry.",
+                "Use clean gardening tools.",
+                "Consult a horticulture expert to confirm the bacterial infection."
+            ],
+
+            pesticideGuidance: [
+                "Do not apply fungicide based only on an AI prediction.",
+                "Copper-based products may be considered only when permitted by the product label and local guidance.",
+                "Follow all product instructions and safety precautions."
+            ],
+
+            note:
+                "Bacterial spot should be confirmed before choosing a disease-specific treatment."
+        },
+
+        "Tomato_Early_blight": {
+
+            symptoms: [
+                "Brown spots may develop on older leaves.",
+                "Spots may show concentric ring patterns.",
+                "Yellowing and leaf drop may occur."
+            ],
+
+            causes:
+                "Early blight is commonly associated with the fungus Alternaria solani. Warm and humid conditions may encourage disease development.",
+
+            care: [
+                "Remove severely affected lower leaves.",
+                "Avoid overhead irrigation.",
+                "Maintain suitable spacing and airflow.",
+                "Remove infected plant debris."
+            ],
+
+            treatment: [
+                "Remove severely infected leaves.",
+                "Avoid wetting foliage during watering.",
+                "Monitor the plant for spreading symptoms.",
+                "Seek expert advice if symptoms continue."
+            ],
+
+            pesticideGuidance: [
+                "Confirm the disease before applying fungicide.",
+                "Use only products labelled for tomato and the confirmed disease.",
+                "Follow the recommended application instructions."
+            ],
+
+            note:
+                "Early blight-like symptoms should be checked carefully before treatment."
+        },
+
+        "Tomato_Late_blight": {
+
+            symptoms: [
+                "Irregular dark green or brown patches may appear.",
+                "Leaf tissue may become rapidly damaged.",
+                "White fungal-like growth may appear under humid conditions."
+            ],
+
+            causes:
+                "Late blight is caused by Phytophthora infestans, a fungus-like organism. Cool and wet conditions can favor its development.",
+
+            care: [
+                "Inspect plants frequently.",
+                "Avoid overhead watering.",
+                "Remove infected plant debris safely.",
+                "Avoid keeping foliage wet for long periods."
+            ],
+
+            treatment: [
+                "Isolate affected plants when practical.",
+                "Remove severely affected plant material carefully.",
+                "Get prompt expert confirmation because late blight can spread rapidly.",
+                "Follow local agricultural recommendations."
+            ],
+
+            pesticideGuidance: [
+                "Do not rely on an AI prediction alone for late blight treatment.",
+                "Use only locally approved products labelled for tomato late blight.",
+                "Follow the label and recommended safety precautions."
+            ],
+
+            note:
+                "Late blight can spread quickly. Seek expert confirmation promptly if symptoms are suspected."
+        },
+
+        "Tomato_Leaf_Mold": {
+
+            symptoms: [
+                "Yellowish patches may appear on upper leaf surfaces.",
+                "Olive-green or grayish growth may appear underneath leaves.",
+                "Affected leaves may curl and dry."
+            ],
+
+            causes:
+                "Tomato leaf mold is associated with the fungus Passalora fulva and is favored by high humidity and poor airflow.",
+
+            care: [
+                "Improve ventilation around plants.",
+                "Avoid excessive humidity.",
+                "Water near the soil rather than over leaves.",
+                "Remove severely affected leaves carefully."
+            ],
+
+            treatment: [
+                "Improve airflow and reduce prolonged leaf moisture.",
+                "Remove heavily affected leaves.",
+                "Monitor new growth for symptoms.",
+                "Seek expert guidance if infection spreads."
+            ],
+
+            pesticideGuidance: [
+                "Confirm leaf mold before choosing a fungicide.",
+                "Select only products labelled for tomato and the confirmed disease.",
+                "Follow the product label carefully."
+            ],
+
+            note:
+                "High humidity management is important when leaf mold is suspected."
+        },
+
+        "Tomato_Septoria_leaf_spot": {
+
+            symptoms: [
+                "Small circular spots may appear on older leaves.",
+                "Spots may have gray or tan centers with dark edges.",
+                "Small dark dots may be visible inside affected spots."
+            ],
+
+            causes:
+                "Septoria leaf spot is commonly caused by the fungus Septoria lycopersici. Wet foliage and infected plant debris may contribute to its spread.",
+
+            care: [
+                "Remove severely affected lower leaves.",
+                "Avoid overhead watering.",
+                "Maintain good spacing between plants.",
+                "Remove infected debris from around the plant."
+            ],
+
+            treatment: [
+                "Remove affected leaves carefully.",
+                "Keep leaves dry.",
+                "Improve airflow around the plant.",
+                "Consult an expert if symptoms continue spreading."
+            ],
+
+            pesticideGuidance: [
+                "Do not apply fungicide without confirming the disease.",
+                "Use only products labelled for tomato and Septoria leaf spot.",
+                "Follow label directions and safety precautions."
+            ],
+
+            note:
+                "Early identification and moisture management can help reduce disease spread."
+        },
+
+        "Tomato_Spider_mites_Two_spotted_spider_mite": {
+
+            symptoms: [
+                "Tiny yellow or pale spots may appear on leaves.",
+                "Fine webbing may be visible on leaf undersides.",
+                "Severely affected leaves may become dry or bronze-colored."
+            ],
+
+            causes:
+                "Two-spotted spider mites are tiny pests that feed on plant cells. Hot and dry conditions may encourage their population growth.",
+
+            care: [
+                "Inspect the undersides of leaves regularly.",
+                "Isolate heavily affected plants when practical.",
+                "Remove badly damaged leaves if necessary.",
+                "Monitor nearby plants for mite activity."
+            ],
+
+            treatment: [
+                "Confirm mite presence by inspecting leaf undersides.",
+                "Use an appropriate water spray to dislodge mites when suitable.",
+                "Consider biological pest management where available.",
+                "Seek expert guidance if infestation persists."
+            ],
+
+            pesticideGuidance: [
+                "Spider mites are not insects, so ordinary insecticides may not be suitable.",
+                "Use a miticide or labelled pest-control product only when appropriate.",
+                "Check that the product is approved for tomato and spider mites.",
+                "Follow all label instructions."
+            ],
+
+            note:
+                "The AI class indicates possible spider mite damage, not confirmed pest identification."
+        },
+
+        "Tomato__Target_Spot": {
+
+            symptoms: [
+                "Brown circular lesions may appear on leaves.",
+                "Spots may show concentric target-like rings.",
+                "Leaves may yellow and fall when damage becomes severe."
+            ],
+
+            causes:
+                "Target spot is associated with the fungus Corynespora cassiicola. Moist conditions can favor disease development.",
+
+            care: [
+                "Maintain good airflow.",
+                "Avoid prolonged leaf wetness.",
+                "Remove severely affected leaves carefully.",
+                "Monitor nearby plants for similar symptoms."
+            ],
+
+            treatment: [
+                "Remove badly affected plant material.",
+                "Improve ventilation and watering practices.",
+                "Monitor whether new lesions develop.",
+                "Consult a plant specialist for confirmation."
+            ],
+
+            pesticideGuidance: [
+                "Confirm target spot before applying fungicide.",
+                "Choose only products labelled for tomato and the identified disease.",
+                "Follow the product label and local agricultural guidance."
+            ],
+
+            note:
+                "Target spot can resemble other leaf diseases, so expert confirmation may be necessary."
+        },
+
+        "Tomato__Tomato_YellowLeaf__Curl_Virus": {
+
+            symptoms: [
+                "Leaves may curl upward or become distorted.",
+                "Yellowing may occur along leaf margins.",
+                "Plants may show stunted growth and reduced flowering."
+            ],
+
+            causes:
+                "Tomato yellow leaf curl disease is caused by a virus transmitted primarily by whiteflies.",
+
+            care: [
+                "Inspect leaves for whiteflies.",
+                "Monitor nearby tomato plants.",
+                "Remove severely affected plants when advised by an expert.",
+                "Use appropriate measures to reduce whitefly populations."
+            ],
+
+            treatment: [
+                "There is no direct chemical cure for a viral infection.",
+                "Manage whitefly vectors using suitable integrated pest management.",
+                "Remove infected plants when recommended by local agricultural experts.",
+                "Use healthy planting material."
+            ],
+
+            pesticideGuidance: [
+                "Fungicides do not cure viral infections.",
+                "Whitefly management may help reduce further transmission.",
+                "Use only approved products labelled for tomato and whiteflies.",
+                "Follow label instructions."
+            ],
+
+            note:
+                "Viral symptoms should be confirmed. Managing whitefly vectors is important."
+        },
+
+        "Tomato__Tomato_mosaic_virus": {
+
+            symptoms: [
+                "Light and dark green mosaic patterns may appear on leaves.",
+                "Leaves may become distorted or narrow.",
+                "Plant growth may become stunted."
+            ],
+
+            causes:
+                "Tomato mosaic disease is caused by Tomato mosaic virus. It can spread through contaminated tools, hands and infected plant material.",
+
+            care: [
+                "Use clean gardening tools.",
+                "Wash hands after handling suspected infected plants.",
+                "Remove infected plant debris carefully.",
+                "Use healthy seeds and planting material."
+            ],
+
+            treatment: [
+                "There is no direct chemical cure for viral infection.",
+                "Remove infected plants when advised by an expert.",
+                "Disinfect tools appropriately.",
+                "Avoid handling healthy plants immediately after infected plants."
+            ],
+
+            pesticideGuidance: [
+                "Fungicides and ordinary pesticides do not cure viral infections.",
+                "Focus on sanitation and preventing mechanical spread.",
+                "Use disease-free seeds and healthy planting material."
+            ],
+
+            note:
+                "Tomato mosaic virus requires prevention and sanitation rather than a chemical cure."
+        },
+
+        "Tomato_healthy": {
+
+            symptoms: [
+                "No clear disease symptoms are indicated by this prediction.",
+                "Leaves may appear green and reasonably healthy.",
+                "Check for unusual spots, curling or pest activity."
+            ],
+
+            causes:
+                "The model classified the image as Tomato Healthy. This does not guarantee that the entire plant is free from disease or pests.",
+
+            care: [
+                "Provide adequate sunlight.",
+                "Maintain consistent and suitable watering.",
+                "Ensure good soil drainage.",
+                "Inspect leaves and stems regularly."
+            ],
+
+            treatment: [
+                "No disease-specific treatment is indicated.",
+                "Continue normal tomato plant care.",
+                "Monitor new leaves for unusual symptoms."
+            ],
+
+            pesticideGuidance: [
+                "No pesticide or fungicide is indicated for a healthy-looking plant.",
+                "Inspect regularly for pests.",
+                "Identify a pest before selecting any control product."
+            ],
+
+            note:
+                "Continue monitoring your tomato plant even when the model predicts a healthy condition."
+        },
     };
 
     // =====================================
@@ -753,14 +1586,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (prediction && diseaseInfo[prediction]) {
 
-        predictionElement.textContent =
-            prediction.replace("Aloe_", "Aloe Vera - ").replaceAll("_", " ");
+    predictionElement.textContent =
+        prediction
+    .replace(/^(Aloe|Tomato)_+/, "$1 - ")
+    .replaceAll("_", " ")
+    .trim();
 
-    } else {
+} else {
 
-        predictionElement.textContent =
-            "Aloe Vera prediction not available";
-    }
+    predictionElement.textContent =
+        plantName + " prediction not available";
+}
 
     if (confidence !== null && confidence !== "") {
 
@@ -813,7 +1649,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ]);
 
         causesText.textContent =
-            "Please upload a valid Aloe Vera image and analyse it again.";
+    `Please upload a valid ${plantName} leaf image and analyse it again.`;
 
         addListItems(careList, [
             "Inspect the plant carefully.",
@@ -829,7 +1665,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ]);
 
         healthNote.textContent =
-            "PlantCare AI currently supports Aloe Vera only.";
+    "PlantCare AI supports Aloe Vera and Tomato. Please upload a valid leaf image.";
     }
 
     // =====================================
@@ -865,7 +1701,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!info) {
 
             weatherMessage.textContent =
-                "Please analyse a valid Aloe Vera image first.";
+                "Please analyse a valid " + plantName + " image first.";
 
             weatherData.style.display = "none";
 
@@ -883,10 +1719,12 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
 
             const response = await fetch(
-                "http://127.0.0.1:8000/api/weather/?city=" +
-                encodeURIComponent(city) +
-                "&disease=" +
-                encodeURIComponent(prediction)
+            "http://127.0.0.1:8000/api/weather/?city=" +
+            encodeURIComponent(city) +
+            "&plant=" +
+            encodeURIComponent(selectedPlant) +
+            "&disease=" +
+            encodeURIComponent(prediction)
             );
 
             const data = await response.json();
@@ -901,8 +1739,66 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("weather-location").textContent =
                 data.city + ", " + data.country;
 
+            // =====================================
+            // 4.1 SEASON INFORMATION
+            // =====================================
+
+            const season = data.season || (function () {
+                const month = new Date().getMonth() + 1;
+                if (month >= 3 && month <= 5) {
+                    return {
+                        name: "Summer",
+                        local_name: "Grishma / Vasant",
+                        icon: "☀️",
+                        care_tip: "Provide afternoon shade and water early in the morning."
+                    };
+                }
+                if (month >= 6 && month <= 9) {
+                    return {
+                        name: "Monsoon / Rainy",
+                        local_name: "Varsha",
+                        icon: "🌧️",
+                        care_tip: "Ensure good pot drainage to avoid leaf rot and standing water."
+                    };
+                }
+                if (month >= 10 && month <= 11) {
+                    return {
+                        name: "Autumn / Post-Monsoon",
+                        local_name: "Sharad",
+                        icon: "🍂",
+                        care_tip: "Moderate weather transition; watch for seasonal moisture spots and leaf rust."
+                    };
+                }
+                return {
+                    name: "Winter",
+                    local_name: "Shishir / Hemant",
+                    icon: "❄️",
+                    care_tip: "Reduce watering frequency and protect leaves from night cold."
+                };
+            })();
+
+            const seasonIcon = document.getElementById("season-icon");
+            const seasonName = document.getElementById("season-name");
+            const seasonSpotIcon = document.getElementById("season-spotlight-icon");
+            const seasonSpotTitle = document.getElementById("season-spotlight-title");
+            const seasonSpotText = document.getElementById("season-spotlight-text");
+
+            if (seasonIcon) seasonIcon.textContent = season.icon || "🍂";
+            if (seasonName) {
+                seasonName.textContent = season.name + (season.local_name ? " (" + season.local_name + ")" : "");
+            }
+            if (seasonSpotIcon) seasonSpotIcon.textContent = season.icon || "🍂";
+            if (seasonSpotTitle) seasonSpotTitle.textContent = "Current Season: " + season.name;
+            if (seasonSpotText) {
+                seasonSpotText.textContent = season.care_tip || season.description || "Seasonal plant care context applied.";
+            }
+
+            // Current Conditions
             document.getElementById("weather-temperature").textContent =
                 data.weather.temperature + " °C";
+
+            document.getElementById("weather-feels").textContent =
+                data.weather.feels_like + " °C";
 
             document.getElementById("weather-humidity").textContent =
                 data.weather.humidity + "%";
@@ -910,14 +1806,11 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("weather-rain").textContent =
                 data.weather.rain_probability + "%";
 
-            document.getElementById("weather-uv").textContent =
-                data.weather.uv_index;
-
             document.getElementById("weather-wind").textContent =
                 data.weather.wind_speed + " km/h";
 
-            document.getElementById("weather-feels").textContent =
-                data.weather.feels_like + " °C";
+            document.getElementById("weather-uv").textContent =
+                data.weather.uv_index;
 
             // =====================================
             // 5. THREE-DAY WEATHER FORECAST
@@ -931,55 +1824,68 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forecast.dates.forEach(function (date, index) {
 
                 const card = document.createElement("div");
-                card.className = "weather-item";
+                card.className = "forecast-day-card";
 
-                const day = document.createElement("strong");
+                const header = document.createElement("div");
+                header.className = "forecast-day-header";
 
-                day.textContent =
-                    new Date(date + "T00:00:00")
-                        .toLocaleDateString("en-IN", {
-                            weekday: "short",
-                            day: "numeric",
-                            month: "short"
-                        });
+                const dayTitle = document.createElement("span");
+                dayTitle.className = "forecast-day-title";
+                const dateObj = new Date(date + "T00:00:00");
+                const dayLabel = index === 0 ? "Today, " : (index === 1 ? "Tomorrow, " : "");
+                dayTitle.textContent = dayLabel + dateObj.toLocaleDateString("en-IN", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short"
+                });
 
-                const temperature = document.createElement("span");
+                const badge = document.createElement("span");
+                badge.className = "forecast-badge";
+                badge.textContent = index === 0 ? "Day 1" : (index === 1 ? "Day 2" : "Day 3");
 
-                temperature.textContent =
-                    "🌡️ Max: " +
-                    data.forecast.max_temperature[index] +
-                    " °C | Min: " +
-                    data.forecast.min_temperature[index] +
-                    " °C";
+                header.append(dayTitle, badge);
 
-                const rain = document.createElement("span");
+                const tempRow = document.createElement("div");
+                tempRow.className = "forecast-temp-row";
 
-                rain.textContent =
-                    "🌧️ Rain: " +
-                    data.forecast.rain_probability[index] +
-                    "%";
+                const maxSpan = document.createElement("span");
+                maxSpan.className = "temp-high";
+                maxSpan.textContent = "🌡️ " + data.forecast.max_temperature[index] + "°C";
 
-                const humidity = document.createElement("span");
+                const sep = document.createElement("span");
+                sep.className = "temp-sep";
+                sep.textContent = "/";
 
-                humidity.textContent =
-                    "💧 Humidity: " +
-                    data.forecast.humidity[index] +
-                    "%";
+                const minSpan = document.createElement("span");
+                minSpan.className = "temp-low";
+                minSpan.textContent = data.forecast.min_temperature[index] + "°C";
 
-                const uv = document.createElement("span");
+                tempRow.append(maxSpan, sep, minSpan);
 
-                uv.textContent =
-                    "☀️ UV Index: " +
-                    data.forecast.uv_index[index];
+                const chipsGrid = document.createElement("div");
+                chipsGrid.className = "forecast-chips-grid";
 
-                card.append(
-                    day,
-                    temperature,
-                    rain,
-                    humidity,
-                    uv
+                function makeForecastChip(label, val) {
+                    const chip = document.createElement("div");
+                    chip.className = "f-chip";
+                    const l = document.createElement("span");
+                    l.className = "f-chip-label";
+                    l.textContent = label;
+                    const v = document.createElement("strong");
+                    v.className = "f-chip-val";
+                    v.textContent = val;
+                    chip.append(l, v);
+                    return chip;
+                }
+
+                chipsGrid.append(
+                    makeForecastChip("🌧️ Rain", (data.forecast.rain_probability[index] ?? 0) + "%"),
+                    makeForecastChip("💧 Humidity", (data.forecast.humidity[index] ?? 0) + "%"),
+                    makeForecastChip("☀️ UV Index", (data.forecast.uv_index[index] ?? 0)),
+                    makeForecastChip("🌡️ Range", (data.forecast.min_temperature[index] ?? "--") + " - " + (data.forecast.max_temperature[index] ?? "--") + "°C")
                 );
 
+                card.append(header, tempRow, chipsGrid);
                 forecastElement.appendChild(card);
             });
 
@@ -1000,20 +1906,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (riskData && riskData.daily_risk) {
 
+                const cleanedDisease = riskData.disease
+                    .replace(/^(Aloe|Tomato)_+/, "")
+                    .replaceAll("_", " ");
+
                 riskDiseaseName.textContent =
-                    "Selected Aloe Vera condition: " +
-                    riskData.disease
-                        .replace("Aloe_", "")
-                        .replaceAll("_", " ");
+                    "Condition: " + plantName + " - " + cleanedDisease;
 
                 riskData.daily_risk.forEach(function (day) {
 
                     const card = document.createElement("div");
-
                     card.className = "risk-card";
 
-                    const heading = document.createElement("h4");
+                    // 1. Header
+                    const cardHeader = document.createElement("div");
+                    cardHeader.className = "risk-card-header";
 
+                    const heading = document.createElement("h4");
+                    heading.className = "risk-day-title";
                     heading.textContent =
                         new Date(day.date + "T00:00:00")
                             .toLocaleDateString("en-IN", {
@@ -1023,62 +1933,72 @@ document.addEventListener("DOMContentLoaded", function () {
                             });
 
                     const riskBadge = document.createElement("span");
+                    const levelClass = day.risk_level ? day.risk_level.toLowerCase() : "low";
+                    riskBadge.className = "risk-level risk-" + levelClass;
+                    const riskIcon = levelClass === "high" ? "🚨 " : (levelClass === "moderate" ? "⚠️ " : "🛡️ ");
+                    riskBadge.textContent = riskIcon + day.risk_level + " Risk";
 
-                    riskBadge.className =
-                        "risk-level risk-" +
-                        day.risk_level.toLowerCase();
+                    cardHeader.append(heading, riskBadge);
 
-                    riskBadge.textContent =
-                        day.risk_level + " Weather Risk";
+                    // 2. Metrics Bar (4 chips)
+                    const metricsBar = document.createElement("div");
+                    metricsBar.className = "risk-metrics-bar";
 
-                    const weatherInfo = document.createElement("p");
+                    function makeMetricPill(text) {
+                        const pill = document.createElement("span");
+                        pill.className = "risk-metric-pill";
+                        pill.textContent = text;
+                        return pill;
+                    }
 
-                    weatherInfo.textContent =
-                        "Temperature: " + day.max_temperature + " °C | " +
-                        "Humidity: " + day.humidity + "% | " +
-                        "Rain: " + day.rain_probability + "% | " +
-                        "UV: " + day.uv_index;
+                    metricsBar.append(
+                        makeMetricPill("🌡️ " + day.max_temperature + " °C"),
+                        makeMetricPill("💧 " + day.humidity + "%"),
+                        makeMetricPill("🌧️ " + day.rain_probability + "%"),
+                        makeMetricPill("☀️ UV " + day.uv_index)
+                    );
 
-                    const reasonHeading =
-                        document.createElement("strong");
+                    // 3. Reasons Box
+                    const reasonsBox = document.createElement("div");
+                    reasonsBox.className = "risk-content-box";
 
-                    reasonHeading.textContent = "Why this risk?";
+                    const reasonTitle = document.createElement("div");
+                    reasonTitle.className = "risk-box-title";
+                    reasonTitle.textContent = "🔍 Why this risk?";
+                    reasonsBox.appendChild(reasonTitle);
 
                     const reasonList = document.createElement("ul");
-
-                    day.reasons.forEach(function (reason) {
-
+                    reasonList.className = "risk-reasons-list";
+                    (day.reasons || []).forEach(function (reason) {
                         const li = document.createElement("li");
-
                         li.textContent = reason;
-
                         reasonList.appendChild(li);
                     });
+                    reasonsBox.appendChild(reasonList);
 
-                    const adviceHeading =
-                        document.createElement("strong");
+                    // 4. Advice Box
+                    const adviceBox = document.createElement("div");
+                    adviceBox.className = "risk-content-box advice";
 
-                    adviceHeading.textContent = "What should you do?";
+                    const adviceTitle = document.createElement("div");
+                    adviceTitle.className = "risk-box-title";
+                    adviceTitle.textContent = "💡 Action Required";
+                    adviceBox.appendChild(adviceTitle);
 
                     const adviceList = document.createElement("ul");
-
-                    day.recommendations.forEach(function (recommendation) {
-
+                    adviceList.className = "risk-advice-list";
+                    (day.recommendations || []).forEach(function (recommendation) {
                         const li = document.createElement("li");
-
                         li.textContent = recommendation;
-
                         adviceList.appendChild(li);
                     });
+                    adviceBox.appendChild(adviceList);
 
                     card.append(
-                        heading,
-                        riskBadge,
-                        weatherInfo,
-                        reasonHeading,
-                        reasonList,
-                        adviceHeading,
-                        adviceList
+                        cardHeader,
+                        metricsBar,
+                        reasonsBox,
+                        adviceBox
                     );
 
                     riskContainer.appendChild(card);
@@ -1094,54 +2014,66 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // =====================================
-            // 7. ALOE VERA CARE RECOMMENDATIONS
-            // =====================================
+           // =====================================
+// 7. PLANT WEATHER CARE RECOMMENDATIONS
+// =====================================
 
-            const recommendationList =
-                document.getElementById("weather-recommendations");
+const recommendationList =
+    document.getElementById("weather-recommendations");
 
-            recommendationList.replaceChildren();
+const recommendationHeading =
+    document.getElementById("weather-care-heading");
 
-            data.aloe_care_recommendations.forEach(function (item) {
+recommendationList.replaceChildren();
 
-                const li = document.createElement("li");
+if (recommendationHeading) {
+    recommendationHeading.textContent =
+        "🌱 " + plantName + " Weather Care Recommendations";
+}
 
-                li.textContent = item;
+const careRecommendations =
+    selectedPlant === "tomato"
+        ? data.tomato_care_recommendations
+        : data.aloe_care_recommendations;
 
-                recommendationList.appendChild(li);
-            });
+(careRecommendations || data.care_recommendations || [])
+    .forEach(function (item) {
 
-            weatherData.style.display = "block";
+        const li = document.createElement("li");
+        li.textContent = item;
 
-            weatherMessage.textContent =
-                "Weather information updated successfully!";
-
-        } catch (error) {
-
-            weatherData.style.display = "none";
-
-            weatherMessage.textContent = error.message;
-
-            console.error("Weather API Error:", error);
-
-        } finally {
-
-            weatherButton.disabled = false;
-
-            weatherButton.textContent = "Check Weather";
-        }
-    }
-
-    weatherButton.addEventListener("click", loadWeather);
-
-    cityInput.addEventListener("keydown", function (event) {
-
-        if (event.key === "Enter") {
-            loadWeather();
-        }
+        recommendationList.appendChild(li);
     });
 
+weatherData.style.display = "block";
+
+weatherMessage.textContent =
+    "Weather information updated successfully!";
+
+} catch (error) {
+
+    weatherData.style.display = "none";
+    weatherMessage.textContent = error.message;
+
+    console.error("Weather API Error:", error);
+
+} finally {
+
+    weatherButton.disabled = false;
+    weatherButton.textContent = "Check Weather";
+}
+
+} // loadWeather function ends here
+
+weatherButton.addEventListener("click", loadWeather);
+
+cityInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        loadWeather();
+    }
 });
+
+}); // DOMContentLoaded ends here
 
 </script>
 

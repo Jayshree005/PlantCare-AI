@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-2xgcdxcspwpcy@00b*gl(j6d(^3c(1fk2lpjbt49)*b9vy5#'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -102,9 +102,18 @@ USE_I18N = True
 USE_TZ = True
 
 
+
 # Static files
 
 STATIC_URL = 'static/'
+
+# Media files (Uploaded Plant Images)
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR.parent
+
 
 
 # Email
@@ -118,9 +127,26 @@ MAILERS = {
 
 # CORS Configuration
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+
+CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
     "http://127.0.0.1:5501",
     "http://localhost:5501",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
 ]
+# REST Framework Authentication
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+}

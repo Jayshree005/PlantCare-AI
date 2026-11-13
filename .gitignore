@@ -4,17 +4,34 @@ venv/
 __pycache__/
 *.py[cod]
 
-# Datasets
+# Datasets and Large Media
 AloeVera_Plant/
 PlantVillage/
 plant_validation_data/
 validator_dataset/
+validator_dataset_v3/
+Tomato_Plant/
+Tomato_Validator_Dataset/
+Pictures/
+prediction_images/
+dataset_manifests/
+"plant disease (2)/"
+plant disease (2)/
+*.zip
+*.tar.gz
+*.rar
 archive (4)/
 
-# Trained models
+# Trained models (Ignore old/obsolete, but keep the 4 active production models)
 *.keras
 *.h5
 *.hdf5
+
+# Allow active lightweight production models (Total ~22MB, well below GitHub 100MB limit)
+!aloe_mobilenetv2_extracted_v1.keras
+!plant_validator_v3.keras
+!tomato_mobilenetv2.keras
+!tomato_validator.keras
 
 # Django database and images
 backend/db.sqlite3
